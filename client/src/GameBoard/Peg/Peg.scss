@@ -1,0 +1,64 @@
+$totalPegLength: 50px;
+$circleBorderRadius: 50%;
+$circularBorderWidth: 2px;
+$normalMargin: 5px;
+$NavyBlue: #172b4d;
+$RegularRed: #ff0000;
+
+.EmptySlot {
+  display: inline-block;
+  margin: $normalMargin * 2 $normalMargin * 2;
+  width: $totalPegLength - 15px;
+  height: $totalPegLength - 15px;
+  border-radius: $circleBorderRadius;
+  background-color: $NavyBlue;
+}
+
+.FilledSlot {
+  margin: 2px 2px;
+  display: inline-block;
+  width: $totalPegLength;
+  height: $totalPegLength;
+  border-radius: $circleBorderRadius;
+  background-color: $RegularRed;
+}
+.DroppableEmptySlot {
+  margin: 7.5px 7.5px;
+  width: $totalPegLength - 15px;
+  height: $totalPegLength - 15px;
+
+  display: inline-block;
+
+  border-radius: $circleBorderRadius;
+  border: solid $circularBorderWidth #14ff00;
+  background-color: $NavyBlue;
+}
+.DeletePeg {
+  margin: 2px 2px;
+  display: inline-block;
+  width: $totalPegLength;
+  height: $totalPegLength;
+  border-radius: $circleBorderRadius;
+  background-color: $RegularRed;
+  opacity: 0.7;
+}
+
+.SelectedPeg {
+  margin: 2px 2px;
+  display: inline-block;
+  width: $totalPegLength - 2 * $circularBorderWidth;
+  height: $totalPegLength - 2 * $circularBorderWidth;
+  border-radius: $circleBorderRadius;
+  border: solid $circularBorderWidth $NavyBlue;
+  background-color: $RegularRed;
+}
+
+.InvisiblePeg {
+  margin: 2px 2px;
+  display: inline-block;
+  width: $totalPegLength;
+  height: $totalPegLength;
+  border-radius: $circleBorderRadius;
+  background-color: $RegularRed;
+  visibility: hidden;
+}
