@@ -20,7 +20,7 @@ const Peg: React.FC<PegPropType> = ({
   };
 
   React.useEffect(() => {
-    console.log("PEg rerender", pegId, pegType);
+    console.log("Peg rerender", pegId, pegType);
   }, [pegType, pegId]);
 
   return <div className={pegType} onClick={handleClick}></div>;
