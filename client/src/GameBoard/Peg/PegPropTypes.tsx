@@ -8,6 +8,8 @@ export enum PegTypes {
 }
 export interface PegPropType {
   pegId: number;
-  pegType: PegTypes;
-  setPegCount: React.Dispatch<React.SetStateAction<number>>;
+  pegType: PegTypes | string;
+  setSelectedPeg: React.Dispatch<React.SetStateAction<number>>;
+  boardState: string[] | PegTypes[];
+  setBoardState: React.Dispatch<React.SetStateAction<string[]>>;
 }

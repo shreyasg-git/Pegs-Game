@@ -2,15 +2,28 @@ import React from "react"; // { useEffect, useState }
 import "./Peg.scss";
 import { PegPropType, PegTypes } from "./PegPropTypes";
 
-const Peg: React.FC<PegPropType> = ({ pegId, setPegCount, pegType }) => {
-  React.useEffect(() => {
-    if (pegType !== PegTypes.InvisiblePeg) {
-      //   setPegCount(pegId + 1);
+const Peg: React.FC<PegPropType> = ({
+  pegId,
+  pegType,
+  setSelectedPeg,
+  boardState,
+  setBoardState,
+}) => {
+  const handleClick = () => {
+    if (pegType === PegTypes.FilledSlot) {
+      setSelectedPeg(pegId);
+      setBoardState(() => {
+        boardState[pegId] = PegTypes.SelectedPeg;
+        return boardState;
+      });
     }
-    console.log(pegId);
-  });
+  };
 
-  return <div className={pegType}></div>;
+  React.useEffect(() => {
+    console.log("PEg rerender", pegId, pegType);
+  }, [pegType, pegId]);
+
+  return <div className={pegType} onClick={handleClick}></div>;
 };
 
 export default Peg;
