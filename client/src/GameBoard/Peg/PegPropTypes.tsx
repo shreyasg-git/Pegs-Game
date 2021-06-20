@@ -9,7 +9,11 @@ export enum PegTypes {
 export interface PegPropType {
   pegId: number;
   pegType: PegTypes | string;
-  setSelectedPeg: React.Dispatch<React.SetStateAction<number>>;
+  selectedPeg: number | null;
+  setSelectedPeg: React.Dispatch<React.SetStateAction<number | null>>;
   boardState: string[] | PegTypes[];
   setBoardState: React.Dispatch<React.SetStateAction<string[]>>;
+
+  // clearOtherSelection: Function;
+  // newGame: Function;
 }

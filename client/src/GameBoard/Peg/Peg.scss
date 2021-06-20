@@ -5,59 +5,65 @@ $normalMargin: 5px;
 $NavyBlue: #172b4d;
 $RegularRed: #ff0000;
 
+// 13+ 24 + 13 =  50
 .EmptySlot {
   display: inline-block;
-  margin: $normalMargin * 2 $normalMargin * 2;
-  width: $totalPegLength - 15px;
-  height: $totalPegLength - 15px;
+  margin: 13px 13px;
+  width: 24px;
+  height: 24px;
   border-radius: $circleBorderRadius;
   background-color: $NavyBlue;
 }
 
+// 2+46+2 = 50
 .FilledSlot {
   margin: 2px 2px;
   display: inline-block;
-  width: $totalPegLength;
-  height: $totalPegLength;
+  width: 46px;
+  height: 46px;
   border-radius: $circleBorderRadius;
   background-color: $RegularRed;
 }
+
+// 13+2+20+2+13 = 50
 .DroppableEmptySlot {
-  margin: 7.5px 7.5px;
-  width: $totalPegLength - 15px;
-  height: $totalPegLength - 15px;
+  margin: 13px 13px;
+  width: 20px;
+  height: 20px;
 
   display: inline-block;
 
   border-radius: $circleBorderRadius;
-  border: solid $circularBorderWidth #14ff00;
+  border: solid 2px #14ff00;
   background-color: $NavyBlue;
 }
+
 .DeletePeg {
   margin: 2px 2px;
   display: inline-block;
-  width: $totalPegLength;
-  height: $totalPegLength;
+  width: 46px;
+  height: 46px;
   border-radius: $circleBorderRadius;
   background-color: $RegularRed;
   opacity: 0.7;
 }
 
+// 2+2+42+2+2 = 50
 .SelectedPeg {
-  margin: 2px 2px;
+  margin: 2px 2.4px; // due to some problem with pixels, the pegs were appearing to be moving a little bit
   display: inline-block;
-  width: $totalPegLength - 2 * $circularBorderWidth;
-  height: $totalPegLength - 2 * $circularBorderWidth;
+  width: 42px;
+  height: 42px;
   border-radius: $circleBorderRadius;
-  border: solid $circularBorderWidth $NavyBlue;
+  border: solid 2px $NavyBlue;
   background-color: $RegularRed;
 }
 
 .InvisiblePeg {
   margin: 2px 2px;
   display: inline-block;
-  width: $totalPegLength;
-  height: $totalPegLength;
+  width: 46px;
+  height: 46px;
   border-radius: $circleBorderRadius;
   background-color: $RegularRed;
   visibility: hidden;

@@ -5,16 +5,28 @@ import { PegPropType, PegTypes } from "./PegPropTypes";
 const Peg: React.FC<PegPropType> = ({
   pegId,
   pegType,
+  selectedPeg,
   setSelectedPeg,
   boardState,
   setBoardState,
+  // clearOtherSelection,
+  // newGame,
 }) => {
   const handleClick = () => {
     if (pegType === PegTypes.FilledSlot) {
+      if (selectedPeg || selectedPeg === 0) {
+        setBoardState(() => {
+          const updatedBoardState = [...boardState];
+          updatedBoardState[5] = PegTypes.EmptySlot;
+
+          return updatedBoardState;
+        });
+      }
       setSelectedPeg(pegId);
       setBoardState(() => {
-        boardState[pegId] = PegTypes.SelectedPeg;
-        return boardState;
+        const newBoardState = [...boardState];
+        newBoardState[pegId] = PegTypes.SelectedPeg;
+        return newBoardState;
       });
     }
   };
