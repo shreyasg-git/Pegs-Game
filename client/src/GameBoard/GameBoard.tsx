@@ -1,13 +1,28 @@
 import Peg from "./Peg";
 import React from "react";
-// import PegPropType from "./Peg/PegPropTypes";
 import "./GameBoard.scss";
 import { PegTypes } from "./Peg/PegPropTypes";
-// import { JsxFragment } from "typescript";
+// import { InvisiblePegIndices } from "./GameBoardConstraintData";
 
 const GameBoard = () => {
   const [selectedPeg, setSelectedPeg] = React.useState<number | null>(null);
   const [boardState, setBoardState] = React.useState<string[]>([
+    PegTypes.InvisiblePeg,
+    PegTypes.InvisiblePeg,
+    PegTypes.FilledSlot,
+    PegTypes.FilledSlot,
+    PegTypes.FilledSlot,
+    PegTypes.InvisiblePeg,
+    PegTypes.InvisiblePeg,
+
+    PegTypes.InvisiblePeg,
+    PegTypes.InvisiblePeg,
+    PegTypes.FilledSlot,
+    PegTypes.FilledSlot,
+    PegTypes.FilledSlot,
+    PegTypes.InvisiblePeg,
+    PegTypes.InvisiblePeg,
+
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
@@ -15,12 +30,7 @@ const GameBoard = () => {
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
+
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
@@ -28,6 +38,7 @@ const GameBoard = () => {
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
+
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
@@ -35,127 +46,48 @@ const GameBoard = () => {
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
+
+    PegTypes.InvisiblePeg,
+    PegTypes.InvisiblePeg,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
+    PegTypes.InvisiblePeg,
+    PegTypes.InvisiblePeg,
+
+    PegTypes.InvisiblePeg,
+    PegTypes.InvisiblePeg,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
+    PegTypes.InvisiblePeg,
+    PegTypes.InvisiblePeg,
   ]);
 
   React.useEffect(() => {
     console.log("Gameboard Rerender/render", selectedPeg);
   }, [selectedPeg, boardState]);
 
-  // const newGame = () => {
-  //   console.log("NEW GAME");
-
-  //   let newBoardState = [...boardState];
-  //   newBoardState[4] = PegTypes.EmptySlot;
-  //   setBoardState(newBoardState);
-  // };
-
-  // TODO: Does not seem to rerender
-  // const clearOtherSelection = (pegIdToClear: number) => {
-  //   console.log("clearing ", pegIdToClear);
-
-  //   let updatedBoardState = [...boardState];
-  //   updatedBoardState[pegIdToClear] = PegTypes.FilledSlot;
-  //   console.log(updatedBoardState === boardState);
-
-  //   setBoardState(updatedBoardState);
-  //   console.log(boardState, updatedBoardState);
-
-  //   console.log(boardState[pegIdToClear], updatedBoardState[pegIdToClear]);
-  // };
-
-  const LineOfThree = (i: number) => {
-    let components: JSX.Element[] = [];
-    for (let j = 0; j < 2; j++) {
-      components.push(
-        <Peg
-          key={100 + j + i}
-          pegId={-1}
-          pegType={PegTypes.InvisiblePeg}
-          selectedPeg={selectedPeg}
-          setSelectedPeg={setSelectedPeg}
-          boardState={boardState}
-          setBoardState={setBoardState}
-          // newGame={newGame}
-        />
-      );
-    }
-    // components.push();
-    for (let j = 0; j < 3; j++) {
-      components.push(
-        <Peg
-          key={i + j}
-          pegId={i + j}
-          pegType={boardState[i + j]}
-          selectedPeg={selectedPeg}
-          setSelectedPeg={setSelectedPeg}
-          boardState={boardState}
-          setBoardState={setBoardState}
-          // newGame={newGame}
-        />
-      );
-    }
-    for (let j = 0; j < 2; j++) {
-      components.push(
-        <Peg
-          key={200 + j + i}
-          pegId={-1}
-          pegType={PegTypes.InvisiblePeg}
-          selectedPeg={selectedPeg}
-          setSelectedPeg={setSelectedPeg}
-          boardState={boardState}
-          setBoardState={setBoardState}
-          // newGame={newGame}
-        />
-      );
-    }
-    return <>{components}</>;
-  };
-
-  const LineOfSeven = (i: number) => {
-    let components: JSX.Element[] = [];
-
-    for (let j = 0; j < 7; j++) {
-      components.push(
-        <Peg
-          key={i + j}
-          pegId={i + j}
-          pegType={boardState[i + j]}
-          selectedPeg={selectedPeg}
-          setSelectedPeg={setSelectedPeg}
-          boardState={boardState}
-          setBoardState={setBoardState}
-          // newGame={newGame}
-        />
-      );
-    }
-
-    return <>{components}</>;
-  };
-
-  const generateWholeBoard = () => {
-    return (
-      <>
-        {LineOfThree(0)}
-        {LineOfThree(3)}
-        {LineOfSeven(6)}
-        {LineOfSeven(13)}
-        {LineOfSeven(20)}
-        {LineOfThree(27)}
-        {LineOfThree(30)}
-      </>
-    );
-  };
-
+  let j = 0;
   return (
     <div className="gameboard">
-      {generateWholeBoard()}
-      {/* <div onClick={newGame}>New Game</div> */}
+      {boardState.map((pegType, i) => {
+        const peg = (
+          <Peg
+            key={i}
+            pegId={pegType === PegTypes.InvisiblePeg ? 100 + i : j++}
+            pegType={pegType}
+            selectedPeg={selectedPeg}
+            setSelectedPeg={setSelectedPeg}
+            boardState={boardState}
+            setBoardState={setBoardState}
+            // newGame={newGame}
+          />
+        );
+
+        // j++;
+        return peg;
+      })}
     </div>
   );
 };
