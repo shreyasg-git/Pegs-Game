@@ -14,9 +14,11 @@ const Peg: React.FC<PegPropType> = ({
 }) => {
   const handleClick = () => {
     if (pegType === PegTypes.FilledSlot) {
+      console.log(selectedPeg);
+
       if (selectedPeg || selectedPeg === 0) {
         setBoardState(() => {
-          const updatedBoardState = [...boardState];
+          let updatedBoardState = [...boardState];
           updatedBoardState[5] = PegTypes.EmptySlot;
 
           return updatedBoardState;
