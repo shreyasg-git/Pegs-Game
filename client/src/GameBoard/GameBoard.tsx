@@ -2,26 +2,18 @@ import Peg from "./Peg";
 import React from "react";
 import "./GameBoard.scss";
 import { PegTypes } from "./Peg/PegPropTypes";
-// import { InvisiblePegIndices } from "./GameBoardConstraintData";
+import { InvisiblePegIndices } from "./GameBoardConstraintData";
 
 const GameBoard = () => {
   const [selectedPeg, setSelectedPeg] = React.useState<number | null>(null);
   const [boardState, setBoardState] = React.useState<string[]>([
-    PegTypes.InvisiblePeg,
-    PegTypes.InvisiblePeg,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
-    PegTypes.InvisiblePeg,
-    PegTypes.InvisiblePeg,
 
-    PegTypes.InvisiblePeg,
-    PegTypes.InvisiblePeg,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
-    PegTypes.InvisiblePeg,
-    PegTypes.InvisiblePeg,
 
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
@@ -47,52 +39,64 @@ const GameBoard = () => {
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
 
-    PegTypes.InvisiblePeg,
-    PegTypes.InvisiblePeg,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
-    PegTypes.InvisiblePeg,
-    PegTypes.InvisiblePeg,
 
-    PegTypes.InvisiblePeg,
-    PegTypes.InvisiblePeg,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
-    PegTypes.InvisiblePeg,
-    PegTypes.InvisiblePeg,
   ]);
 
   React.useEffect(() => {
     console.log("Gameboard Rerender/render", selectedPeg);
   }, [selectedPeg, boardState]);
 
-  let j = 0;
-  return (
-    <div className="gameboard">
-      {boardState.map((pegType, i) => {
-        const peg = (
+  const genBoard = () => {
+    let j = 0;
+    let pegArray = [];
+    for (let i = 0; i < 49; i++) {
+      if (InvisiblePegIndices.includes(i)) {
+        pegArray.push(
           <Peg
             key={i}
-            pegId={pegType === PegTypes.InvisiblePeg ? 100 + i : j++}
-            pegType={pegType}
+            pegId={100 + i}
+            pegType={PegTypes.InvisiblePeg}
             selectedPeg={selectedPeg}
             setSelectedPeg={setSelectedPeg}
             boardState={boardState}
             setBoardState={setBoardState}
+            // clearOtherSelection={clearOtherselection}
             // newGame={newGame}
           />
         );
+      } else {
+        pegArray.push(
+          <Peg
+            key={i}
+            pegId={j}
+            pegType={boardState[j]}
+            selectedPeg={selectedPeg}
+            setSelectedPeg={setSelectedPeg}
+            boardState={boardState}
+            setBoardState={setBoardState}
+            // clearOtherSelection={clearOtherselection}
+            // newGame={newGame}
+          />
+        );
+        j++;
+      }
+    }
+    // console.log(pegArray);
 
-        // j++;
-        return peg;
-      })}
-    </div>
-  );
+    return pegArray;
+  };
+
+  return <div className="gameboard">{genBoard()}</div>;
 };
 
 export default GameBoard;
+// {/* <div onClick={clearOtherselection}></div> */}
 
 // []
 // 1 2 3 4 5 6 7
@@ -129,3 +133,14 @@ export default GameBoard;
 // 44
 // 45
 // 46 47 48 49
+
+/* <Peg
+            key={i}
+            pegId={pegType === PegTypes.InvisiblePeg ? 100 + i : j++}
+            pegType={pegType}
+            selectedPeg={selectedPeg}
+            setSelectedPeg={setSelectedPeg}
+            boardState={boardState}
+            setBoardState={setBoardState}
+            // newGame={newGame}
+          /> */

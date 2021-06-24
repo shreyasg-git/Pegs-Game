@@ -9,27 +9,19 @@ const Peg: React.FC<PegPropType> = ({
   setSelectedPeg,
   boardState,
   setBoardState,
+
   // clearOtherSelection,
   // newGame,
 }) => {
   const handleClick = () => {
     if (pegType === PegTypes.FilledSlot) {
-      console.log(selectedPeg);
-
-      if (selectedPeg || selectedPeg === 0) {
-        setBoardState(() => {
-          let updatedBoardState = [...boardState];
-          updatedBoardState[5] = PegTypes.EmptySlot;
-
-          return updatedBoardState;
-        });
-      }
-      setSelectedPeg(pegId);
       setBoardState(() => {
         const newBoardState = [...boardState];
         newBoardState[pegId] = PegTypes.SelectedPeg;
+        newBoardState[selectedPeg!] = PegTypes.FilledSlot;
         return newBoardState;
       });
+      setSelectedPeg(pegId);
     }
   };
 
