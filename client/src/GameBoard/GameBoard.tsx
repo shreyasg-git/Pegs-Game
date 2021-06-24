@@ -52,7 +52,7 @@ const GameBoard = () => {
     console.log("Gameboard Rerender/render", selectedPeg);
   }, [selectedPeg, boardState]);
 
-  const genBoard = () => {
+  const generateBoard = () => {
     let j = 0;
     let pegArray = [];
     for (let i = 0; i < 49; i++) {
@@ -92,7 +92,7 @@ const GameBoard = () => {
     return pegArray;
   };
 
-  return <div className="gameboard">{genBoard()}</div>;
+  return <div className="gameboard">{generateBoard()}</div>;
 };
 
 export default GameBoard;
