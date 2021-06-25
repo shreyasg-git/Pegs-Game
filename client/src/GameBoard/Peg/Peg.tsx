@@ -2,7 +2,7 @@ import React from "react"; // { useEffect, useState }
 import "./Peg.scss";
 import { PegPropType, PegTypes } from "./PegPropTypes";
 import { pegToBeRemovedMap } from "../GameBoardConstraintData";
-import { clearGameBoardArray } from "../GameBoardUtils";
+import { clearGameBoardArray, clearGameBoardArrayButExclude } from "../GameBoardUtils";
 const Peg: React.FC<PegPropType> = ({
   pegId,
   pegType,
@@ -29,9 +29,6 @@ const Peg: React.FC<PegPropType> = ({
                 boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.SelectedPeg ||
                 boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.DeletePeg)
             ) {
-              if (boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.SelectedPeg) {
-                console.log("this this");
-              }
               newBoardState[pegId] = PegTypes.SelectedPeg;
               newBoardState[k] = PegTypes.DroppableEmptySlot;
               newBoardState[pegToBeRemovedMap[pegId][1][index]] = PegTypes.DeletePeg;
@@ -40,16 +37,25 @@ const Peg: React.FC<PegPropType> = ({
 
           return newBoardState;
         });
+
         setSelectedPeg(pegId);
+
         break; // ======================================================================================================
 
       case PegTypes.DroppableEmptySlot:
         setBoardState(() => {
-          const newBoardState = [...boardState];
+          let newBoardState = [...boardState];
           newBoardState[selectedPeg!] = PegTypes.EmptySlot;
           const jk = pegToBeRemovedMap[selectedPeg!][0].indexOf(pegId);
           newBoardState[pegToBeRemovedMap[selectedPeg!][1][jk]] = PegTypes.EmptySlot;
           newBoardState[pegId] = PegTypes.FilledSlot;
+
+          // we need to clean board afterwards but we need to exclude the pegs which were just updated
+          newBoardState = clearGameBoardArrayButExclude(newBoardState, [
+            selectedPeg!,
+            pegToBeRemovedMap[selectedPeg!][1][jk],
+            pegId,
+          ]);
           return newBoardState;
         });
         setSelectedPeg(null);
@@ -78,7 +84,6 @@ const Peg: React.FC<PegPropType> = ({
               newBoardState[pegToBeRemovedMap[pegId][1][index]] = PegTypes.DeletePeg;
             }
           });
-
           return newBoardState;
         });
         setSelectedPeg(pegId);
