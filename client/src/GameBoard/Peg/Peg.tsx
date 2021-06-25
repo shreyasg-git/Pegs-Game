@@ -55,6 +55,36 @@ const Peg: React.FC<PegPropType> = ({
         setSelectedPeg(null);
         break; // ======================================================================================================
 
+      case PegTypes.DeletePeg:
+        setBoardState(() => {
+          let newBoardState = [...boardState];
+          // clearing previous changes
+          newBoardState = clearGameBoardArray(newBoardState);
+
+          // making changes for current selection
+          pegToBeRemovedMap[pegId][0].forEach((k, index) => {
+            if (
+              (boardState[k] === PegTypes.EmptySlot ||
+                boardState[k] === PegTypes.DroppableEmptySlot) &&
+              (boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.FilledSlot ||
+                boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.SelectedPeg ||
+                boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.DeletePeg)
+            ) {
+              if (boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.SelectedPeg) {
+                console.log("this this");
+              }
+              newBoardState[pegId] = PegTypes.SelectedPeg;
+              newBoardState[k] = PegTypes.DroppableEmptySlot;
+              newBoardState[pegToBeRemovedMap[pegId][1][index]] = PegTypes.DeletePeg;
+            }
+          });
+
+          return newBoardState;
+        });
+        setSelectedPeg(pegId);
+
+        break; // ======================================================================================================
+
       default:
         break;
     }
