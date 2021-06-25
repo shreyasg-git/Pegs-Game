@@ -15,30 +15,45 @@ const Peg: React.FC<PegPropType> = ({
   const handleClick = () => {
     switch (pegType) {
       case PegTypes.FilledSlot:
-        // console.log(pegToBeRemovedMap[pegId]);
-        // clearGameBoard();
         setBoardState(() => {
           let newBoardState = [...boardState];
-          // clearing previous changes (previous approach was to literally undo everything but now we are directly traversing and changing gameboard to FilledSlots OR EmptySlots depending on their type)
+          // clearing previous changes
           newBoardState = clearGameBoardArray(newBoardState);
+
           // making changes for current selection
           pegToBeRemovedMap[pegId][0].forEach((k, index) => {
             if (
               (boardState[k] === PegTypes.EmptySlot ||
                 boardState[k] === PegTypes.DroppableEmptySlot) &&
-              boardState[pegToBeRemovedMap[pegId][1][index]] ===
-                (PegTypes.FilledSlot || PegTypes.DeletePeg)
+              (boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.FilledSlot ||
+                boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.SelectedPeg ||
+                boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.DeletePeg)
             ) {
+              if (boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.SelectedPeg) {
+                console.log("this this");
+              }
+              newBoardState[pegId] = PegTypes.SelectedPeg;
               newBoardState[k] = PegTypes.DroppableEmptySlot;
               newBoardState[pegToBeRemovedMap[pegId][1][index]] = PegTypes.DeletePeg;
-              newBoardState[pegId] = PegTypes.SelectedPeg;
             }
           });
 
           return newBoardState;
         });
         setSelectedPeg(pegId);
-        break;
+        break; // ======================================================================================================
+
+      case PegTypes.DroppableEmptySlot:
+        setBoardState(() => {
+          const newBoardState = [...boardState];
+          newBoardState[selectedPeg!] = PegTypes.EmptySlot;
+          const jk = pegToBeRemovedMap[selectedPeg!][0].indexOf(pegId);
+          newBoardState[pegToBeRemovedMap[selectedPeg!][1][jk]] = PegTypes.EmptySlot;
+          newBoardState[pegId] = PegTypes.FilledSlot;
+          return newBoardState;
+        });
+        setSelectedPeg(null);
+        break; // ======================================================================================================
 
       default:
         break;
@@ -53,6 +68,9 @@ const Peg: React.FC<PegPropType> = ({
 };
 
 export default Peg;
+
+// cleaning the board (previous approach was to literally undo everything but now we are directly traversing and
+// changing gameboard to FilledSlots OR EmptySlots depending on their type)
 
 // // clearing previous changes
 // if (selectedPeg !== null) {

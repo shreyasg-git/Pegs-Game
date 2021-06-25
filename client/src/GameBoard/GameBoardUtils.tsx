@@ -11,6 +11,5 @@ export const clearGameBoardArray = (gboard: string[]) => {
       newBoardState[index] = PegTypes.FilledSlot;
     }
   });
-
   return newBoardState;
 };
