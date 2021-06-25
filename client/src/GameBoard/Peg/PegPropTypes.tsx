@@ -14,6 +14,7 @@ export interface PegPropType {
   setSelectedPeg: React.Dispatch<React.SetStateAction<number | null>>;
   boardState: string[] | PegTypes[];
   setBoardState: React.Dispatch<React.SetStateAction<string[]>>;
+  // clearGameBoard: Function;
 
   // clearOtherSelection: Function;
   // newGame: Function;

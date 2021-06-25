@@ -26,7 +26,7 @@ const GameBoard = () => {
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
-    PegTypes.EmptySlot,
+    PegTypes.EmptySlot, // Main
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
     PegTypes.FilledSlot,
@@ -66,8 +66,7 @@ const GameBoard = () => {
             setSelectedPeg={setSelectedPeg}
             boardState={boardState}
             setBoardState={setBoardState}
-            // clearOtherSelection={clearOtherselection}
-            // newGame={newGame}
+            // clearGameBoard={clearGameBoard}
           />
         );
       } else {
@@ -80,8 +79,7 @@ const GameBoard = () => {
             setSelectedPeg={setSelectedPeg}
             boardState={boardState}
             setBoardState={setBoardState}
-            // clearOtherSelection={clearOtherselection}
-            // newGame={newGame}
+            // clearGameBoard={clearGameBoard}
           />
         );
         j++;
@@ -92,11 +90,16 @@ const GameBoard = () => {
     return pegArray;
   };
 
-  return <div className="gameboard">{generateBoard()}</div>;
+  return (
+    <div className="gameboard">
+      {generateBoard()}
+
+      {/* <div onClick={clearGameBoard}>HEllo</div> */}
+    </div>
+  );
 };
 
 export default GameBoard;
-// {/* <div onClick={clearOtherselection}></div> */}
 
 // []
 // 1 2 3 4 5 6 7
