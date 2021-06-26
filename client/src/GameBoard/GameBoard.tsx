@@ -3,8 +3,8 @@ import React from "react";
 import "./GameBoard.scss";
 import { PegTypes } from "./Peg/PegPropTypes";
 import { InvisiblePegIndices } from "./GameBoardConstraintData";
-
-const GameBoard = () => {
+import { GameBoardPropType } from "./GameBoardPropTypes";
+const GameBoard: React.FC<GameBoardPropType> = () => {
   const [selectedPeg, setSelectedPeg] = React.useState<number | null>(null);
   const [boardState, setBoardState] = React.useState<string[]>([
     PegTypes.FilledSlot,
