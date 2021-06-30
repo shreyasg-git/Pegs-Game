@@ -1,4 +1,4 @@
-import { PegTypes } from "./Peg/PegPropTypes";
+import { PegTypes } from "./Peg/PegTypes";
 export const clearGameBoardArray = (gboard: string[]) => {
   let newBoardState = [...gboard];
 

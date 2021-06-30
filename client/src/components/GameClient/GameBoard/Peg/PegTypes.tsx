@@ -6,6 +6,7 @@ export enum PegTypes {
   SelectedPeg = "SelectedPeg",
   InvisiblePeg = "InvisiblePeg",
 }
+
 export interface PegPropType {
   key: number;
   pegId: number;

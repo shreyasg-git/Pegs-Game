@@ -1,6 +1,6 @@
 import React from "react"; // { useEffect, useState }
 import "./Peg.scss";
-import { PegPropType, PegTypes } from "./PegPropTypes";
+import { PegPropType, PegTypes } from "./PegTypes";
 import { pegToBeRemovedMap } from "../GameBoardConstraintData";
 import { clearGameBoardArray, clearGameBoardArrayButExclude } from "../GameBoardUtils";
 const Peg: React.FC<PegPropType> = ({

@@ -1,7 +1,7 @@
 import Peg from "./Peg";
 import React from "react";
 import "./GameBoard.scss";
-import { PegTypes } from "./Peg/PegPropTypes";
+import { PegTypes } from "./Peg/PegTypes";
 import { InvisiblePegIndices } from "./GameBoardConstraintData";
 import { GameBoardPropType } from "./GameBoardPropTypes";
 const GameBoard: React.FC<GameBoardPropType> = () => {
