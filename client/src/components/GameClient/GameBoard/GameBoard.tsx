@@ -4,53 +4,12 @@ import "./GameBoard.scss";
 import { PegTypes } from "./Peg/PegTypes";
 import { InvisiblePegIndices } from "./GameBoardConstraintData";
 import { GameBoardPropType } from "./GameBoardPropTypes";
-const GameBoard: React.FC<GameBoardPropType> = () => {
+const GameBoard: React.FC<GameBoardPropType> = ({ selfBoardState, selfBoardStateDispatch }) => {
   const [selectedPeg, setSelectedPeg] = React.useState<number | null>(null);
-  const [boardState, setBoardState] = React.useState<string[]>([
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.EmptySlot, // Main
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-    PegTypes.FilledSlot,
-  ]);
 
   React.useEffect(() => {
     console.log("Gameboard Rerender/render", selectedPeg);
-  }, [selectedPeg, boardState]);
+  }, [selectedPeg, selfBoardState]);
 
   const generateBoard = () => {
     let j = 0;
@@ -64,8 +23,8 @@ const GameBoard: React.FC<GameBoardPropType> = () => {
             pegType={PegTypes.InvisiblePeg}
             selectedPeg={selectedPeg}
             setSelectedPeg={setSelectedPeg}
-            boardState={boardState}
-            setBoardState={setBoardState}
+            selfBoardState={selfBoardState}
+            selfBoardStateDispatch={selfBoardStateDispatch}
             // clearGameBoard={clearGameBoard}
           />
         );
@@ -74,11 +33,11 @@ const GameBoard: React.FC<GameBoardPropType> = () => {
           <Peg
             key={i}
             pegId={j}
-            pegType={boardState[j]}
+            pegType={selfBoardState![j]}
             selectedPeg={selectedPeg}
             setSelectedPeg={setSelectedPeg}
-            boardState={boardState}
-            setBoardState={setBoardState}
+            selfBoardState={selfBoardState}
+            selfBoardStateDispatch={selfBoardStateDispatch}
             // clearGameBoard={clearGameBoard}
           />
         );
@@ -102,8 +61,8 @@ const GameBoard: React.FC<GameBoardPropType> = () => {
 export default GameBoard;
 
 // []
-// 1 2 3 4 5 6 7
-// 8 9 10 11 12 13 14
+// 1  2  3  4  5  6  7
+// 8  9  10 11 12 13 14
 // 15
 // 16
 // 17

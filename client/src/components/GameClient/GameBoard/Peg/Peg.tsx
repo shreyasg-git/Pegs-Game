@@ -1,90 +1,103 @@
 import React from "react"; // { useEffect, useState }
 import "./Peg.scss";
-import { PegPropType, PegTypes } from "./PegTypes";
+import { PegPropType, PegTypes, GameBoardChangesType } from "./PegTypes";
 import { pegToBeRemovedMap } from "../GameBoardConstraintData";
 import { clearGameBoardArray, clearGameBoardArrayButExclude } from "../GameBoardUtils";
+import { selfBoardStateActionTypes } from "./../../GameClientTypes";
+
 const Peg: React.FC<PegPropType> = ({
   pegId,
   pegType,
   selectedPeg,
   setSelectedPeg,
-  boardState,
-  setBoardState,
+  selfBoardState,
+  selfBoardStateDispatch,
   // clearGameBoard,
 }) => {
   const handleClick = () => {
     switch (pegType) {
       case PegTypes.FilledSlot:
-        setBoardState(() => {
-          let newBoardState = [...boardState];
-          // clearing previous changes
-          newBoardState = clearGameBoardArray(newBoardState);
+        // let newBoardState = [...selfBoardState!];
+        let newBoard: GameBoardChangesType = {
+          EmptySlot: [],
+          FilledSlot: [],
+          DroppableEmptySlot: [],
+          DeletePeg: [],
+          SelectedPeg: [],
+          InvisiblePeg: [],
+        };
+        // clearing previous changes
+        // newBoardState = clearGameBoardArray(newBoardState);
 
-          // making changes for current selection
-          pegToBeRemovedMap[pegId][0].forEach((k, index) => {
-            if (
-              (boardState[k] === PegTypes.EmptySlot ||
-                boardState[k] === PegTypes.DroppableEmptySlot) &&
-              (boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.FilledSlot ||
-                boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.SelectedPeg ||
-                boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.DeletePeg)
-            ) {
-              newBoardState[pegId] = PegTypes.SelectedPeg;
-              newBoardState[k] = PegTypes.DroppableEmptySlot;
-              newBoardState[pegToBeRemovedMap[pegId][1][index]] = PegTypes.DeletePeg;
-            }
-          });
-
-          return newBoardState;
+        // making changes for current selection
+        pegToBeRemovedMap[pegId][0].forEach((k, index) => {
+          if (
+            (selfBoardState![k] === PegTypes.EmptySlot ||
+              selfBoardState![k] === PegTypes.DroppableEmptySlot) &&
+            (selfBoardState![pegToBeRemovedMap[pegId][1][index]] === PegTypes.FilledSlot ||
+              selfBoardState![pegToBeRemovedMap[pegId][1][index]] === PegTypes.SelectedPeg ||
+              selfBoardState![pegToBeRemovedMap[pegId][1][index]] === PegTypes.DeletePeg)
+          ) {
+            newBoard.SelectedPeg.push(pegId);
+            newBoard.DroppableEmptySlot.push(k);
+            newBoard.DeletePeg.push(pegToBeRemovedMap[pegId][1][index]);
+          }
         });
-
+        selfBoardStateDispatch!({
+          type: selfBoardStateActionTypes.SelectAPeg,
+          payload: newBoard,
+        });
         setSelectedPeg(pegId);
 
         break; // ======================================================================================================
 
       case PegTypes.DroppableEmptySlot:
-        setBoardState(() => {
-          let newBoardState = [...boardState];
-          newBoardState[selectedPeg!] = PegTypes.EmptySlot;
-          const jk = pegToBeRemovedMap[selectedPeg!][0].indexOf(pegId);
-          newBoardState[pegToBeRemovedMap[selectedPeg!][1][jk]] = PegTypes.EmptySlot;
-          newBoardState[pegId] = PegTypes.FilledSlot;
+        let newBoardState2 = [...selfBoardState!];
 
-          // we need to clean board afterwards but we need to exclude the pegs which were just updated
-          newBoardState = clearGameBoardArrayButExclude(newBoardState, [
-            selectedPeg!,
-            pegToBeRemovedMap[selectedPeg!][1][jk],
-            pegId,
-          ]);
-          return newBoardState;
+        newBoardState2[selectedPeg!] = PegTypes.EmptySlot;
+        const jk = pegToBeRemovedMap[selectedPeg!][0].indexOf(pegId);
+        newBoardState2[pegToBeRemovedMap[selectedPeg!][1][jk]] = PegTypes.EmptySlot;
+        newBoardState2[pegId] = PegTypes.FilledSlot;
+
+        // we need to clean board afterwards but we need to exclude the pegs which were just updated
+        newBoardState2 = clearGameBoardArrayButExclude(newBoardState2, [
+          selectedPeg!,
+          pegToBeRemovedMap[selectedPeg!][1][jk],
+          pegId,
+        ]);
+
+        selfBoardStateDispatch!({
+          type: selfBoardStateActionTypes.CleanAndSelect,
+          payload: newBoardState2,
         });
         setSelectedPeg(null);
         break; // ======================================================================================================
 
       case PegTypes.DeletePeg:
-        setBoardState(() => {
-          let newBoardState = [...boardState];
-          // clearing previous changes
-          newBoardState = clearGameBoardArray(newBoardState);
+        let newBoardState3 = [...selfBoardState!];
+        // clearing previous changes
+        newBoardState3 = clearGameBoardArray(newBoardState3);
 
-          // making changes for current selection
-          pegToBeRemovedMap[pegId][0].forEach((k, index) => {
-            if (
-              (boardState[k] === PegTypes.EmptySlot ||
-                boardState[k] === PegTypes.DroppableEmptySlot) &&
-              (boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.FilledSlot ||
-                boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.SelectedPeg ||
-                boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.DeletePeg)
-            ) {
-              if (boardState[pegToBeRemovedMap[pegId][1][index]] === PegTypes.SelectedPeg) {
-                console.log("this this");
-              }
-              newBoardState[pegId] = PegTypes.SelectedPeg;
-              newBoardState[k] = PegTypes.DroppableEmptySlot;
-              newBoardState[pegToBeRemovedMap[pegId][1][index]] = PegTypes.DeletePeg;
+        // making changes for current selection
+        pegToBeRemovedMap[pegId][0].forEach((k, index) => {
+          if (
+            (selfBoardState![k] === PegTypes.EmptySlot ||
+              selfBoardState![k] === PegTypes.DroppableEmptySlot) &&
+            (selfBoardState![pegToBeRemovedMap[pegId][1][index]] === PegTypes.FilledSlot ||
+              selfBoardState![pegToBeRemovedMap[pegId][1][index]] === PegTypes.SelectedPeg ||
+              selfBoardState![pegToBeRemovedMap[pegId][1][index]] === PegTypes.DeletePeg)
+          ) {
+            if (selfBoardState![pegToBeRemovedMap[pegId][1][index]] === PegTypes.SelectedPeg) {
+              console.log("this this");
             }
-          });
-          return newBoardState;
+            newBoardState3[pegId] = PegTypes.SelectedPeg;
+            newBoardState3[k] = PegTypes.DroppableEmptySlot;
+            newBoardState3[pegToBeRemovedMap[pegId][1][index]] = PegTypes.DeletePeg;
+          }
+        });
+        selfBoardStateDispatch!({
+          type: selfBoardStateActionTypes.CleanAndSelect,
+          payload: newBoardState3,
         });
         setSelectedPeg(pegId);
 

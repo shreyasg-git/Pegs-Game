@@ -1,9 +1,13 @@
+import { GameBoardChangesType } from "./GameBoard/Peg/PegTypes";
+
 export enum selfBoardStateActionTypes {
+  CleanAndSelect = "CLEAN_AND_SELECT",
   NewGame = "NEW_GAME",
   ExitGame = "EXIT_GAME",
   Undo = "UNDO",
   Redo = "REDO",
   Restart = "RESTART",
+  SelectAPeg = "SELECT_A_PEG",
 }
 
 export enum guestBoardStateActionTypes {
@@ -12,12 +16,12 @@ export enum guestBoardStateActionTypes {
 }
 export type selfBoardStateAction = {
   type: selfBoardStateActionTypes;
-  payload: Move;
+  payload: string[] | Object | GameBoardChangesType;
 };
 
 export type guestBoardStateAction = {
   type: guestBoardStateActionTypes;
-  payload: Move;
+  payload: string[] | Object;
 };
 
 export type Move = {
@@ -25,3 +29,7 @@ export type Move = {
   DeletedFrom: number;
   MovedTo: number;
 };
+
+// export tpye SelectedMove = {
+//   Sele
+// }
