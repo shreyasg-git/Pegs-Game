@@ -1,5 +1,5 @@
-import { BoardStateAction } from "../../../../types/BoardStateActionType";
-import { PegTypes } from "../../../../types/PegTypes";
+import { BoardStateAction } from "types/BoardStateActionType";
+import { PegTypes } from "types/PegTypes";
 export interface PegPropType {
   key: number;
   pegId: number;

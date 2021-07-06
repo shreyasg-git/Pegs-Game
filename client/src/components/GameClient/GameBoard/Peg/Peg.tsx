@@ -1,11 +1,14 @@
 import React from "react"; // { useEffect, useState }
 import "./Peg.scss";
 import { PegPropType } from "./PegPropType";
-import { GameBoardChangesType } from "../../../../types/GameStateChanges";
-import { PegTypes } from "../../../../types/PegTypes";
-import { pegMap } from "../../../../gameConstraints/pegMap";
 import { clearGameBoardArray, clearGameBoardArrayButExclude } from "../GameBoardUtils";
-import { BoardStateActionTypes } from "../../../../types/BoardStateActionType";
+
+import { GameBoardChangesType, emptyGameBoardChangesObj } from "types/GameStateChanges";
+import { PegTypes } from "types/PegTypes";
+import { BoardStateActionTypes } from "types/BoardStateActionType";
+
+import { pegMap } from "gameConstraints/pegMap";
+
 const Peg: React.FC<PegPropType> = ({
   pegId,
   pegType,
@@ -13,24 +16,11 @@ const Peg: React.FC<PegPropType> = ({
   setSelectedPeg,
   selfBoardState,
   selfBoardStateDispatch,
-  // clearGameBoard,
 }) => {
   const handleClick = () => {
     switch (pegType) {
       case PegTypes.FilledSlot:
-        // let newBoardState = [...selfBoardState!];
-        let newBoard: GameBoardChangesType = {
-          EmptySlot: [],
-          FilledSlot: [],
-          DroppableEmptySlot: [],
-          DeletePeg: [],
-          SelectedPeg: [],
-          InvisiblePeg: [],
-        };
-        // clearing previous changes
-        // newBoardState = clearGameBoardArray(newBoardState);
-
-        // making changes for current selection
+        let newBoard: GameBoardChangesType = { ...emptyGameBoardChangesObj };
         pegMap[pegId][0].forEach((k, index) => {
           if (
             (selfBoardState![k] === PegTypes.EmptySlot ||
@@ -60,6 +50,7 @@ const Peg: React.FC<PegPropType> = ({
         newBoardState2[pegMap[selectedPeg!][1][jk]] = PegTypes.EmptySlot;
         newBoardState2[pegId] = PegTypes.FilledSlot;
 
+        // TODO: need to write Reducer, and ACtion for this
         // we need to clean board afterwards but we need to exclude the pegs which were just updated
         newBoardState2 = clearGameBoardArrayButExclude(newBoardState2, [
           selectedPeg!,
@@ -88,9 +79,6 @@ const Peg: React.FC<PegPropType> = ({
               selfBoardState![pegMap[pegId][1][index]] === PegTypes.SelectedPeg ||
               selfBoardState![pegMap[pegId][1][index]] === PegTypes.DeletePeg)
           ) {
-            if (selfBoardState![pegMap[pegId][1][index]] === PegTypes.SelectedPeg) {
-              console.log("this this");
-            }
             newBoardState3[pegId] = PegTypes.SelectedPeg;
             newBoardState3[k] = PegTypes.DroppableEmptySlot;
             newBoardState3[pegMap[pegId][1][index]] = PegTypes.DeletePeg;
@@ -117,21 +105,3 @@ const Peg: React.FC<PegPropType> = ({
 };
 
 export default Peg;
-
-// cleaning the board (previous approach was to literally undo everything but now we are directly traversing and
-// changing gameboard to FilledSlots OR EmptySlots depending on their type)
-
-// // clearing previous changes
-// if (selectedPeg !== null) {
-//   newBoardState[selectedPeg!] = PegTypes.FilledSlot;
-//   pegMap[selectedPeg!][0].forEach((k) => {
-//     if (newBoardState[k] === PegTypes.DroppableEmptySlot) {
-//       newBoardState[k] = PegTypes.EmptySlot;
-//     }
-//   });
-//   pegMap[selectedPeg!][1].forEach((k) => {
-//     if (newBoardState[k] === PegTypes.DeletePeg) {
-//       newBoardState[k] = PegTypes.FilledSlot;
-//     }
-//   });
-// }

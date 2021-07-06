@@ -6,3 +6,12 @@ export type GameBoardChangesType = {
   SelectedPeg: number[];
   InvisiblePeg: number[];
 };
+
+export const emptyGameBoardChangesObj = {
+  EmptySlot: [],
+  FilledSlot: [],
+  DroppableEmptySlot: [],
+  DeletePeg: [],
+  SelectedPeg: [],
+  InvisiblePeg: [],
+};

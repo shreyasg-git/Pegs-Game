@@ -1,14 +1,14 @@
 import Peg from "./Peg";
 import React, { useReducer } from "react";
 import "./GameBoard.scss";
-import { PegTypes } from "./../../../types/PegTypes";
-import { GameBoardChangesType } from "../../../types/GameStateChanges";
+import { PegTypes } from "types/PegTypes";
+import { GameBoardChangesType } from "types/GameStateChanges";
 
-import { InvisiblePegIndices } from "../../../gameConstraints/InvisiblePegIndices";
+import { InvisiblePegIndices } from "gameConstraints/InvisiblePegIndices";
 import { GameBoardPropType } from "./GameBoardPropTypes";
-import { InitialGameBoardState } from "../../../gameConstraints/InitGameBoardState";
+import { InitialGameBoardState } from "gameConstraints/InitGameBoardState";
 import { clearGameBoardArray } from "./GameBoardUtils";
-import { BoardStateActionTypes, BoardStateAction } from "../../../types/BoardStateActionType";
+import { BoardStateActionTypes, BoardStateAction } from "types/BoardStateActionType";
 
 const GameBoard: React.FC<GameBoardPropType> = () => {
   const [selectedPeg, setSelectedPeg] = React.useState<number | null>(null);

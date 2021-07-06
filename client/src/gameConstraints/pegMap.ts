@@ -1,6 +1,8 @@
 type pegMapType = {
   [key: number]: number[][];
 };
+
+// 'pegId': [[Drop Locations],[Pegs to Delete]]
 export const pegMap: pegMapType = {
   0: [
     [8, 2],
