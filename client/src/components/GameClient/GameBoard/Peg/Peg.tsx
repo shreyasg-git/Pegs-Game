@@ -2,7 +2,7 @@ import React from "react"; // { useEffect, useState }
 import "./Peg.scss";
 import { PegPropType } from "./PegPropType";
 
-import { GameBoardChangesType, emptyGameBoardChangesObj } from "types/GameStateChanges";
+import { GameBoardChangesType } from "types/GameStateChanges";
 import { PegTypes } from "types/PegTypes";
 import { BoardStateActionTypes } from "types/BoardStateActionType";
 
@@ -20,7 +20,14 @@ const Peg: React.FC<PegPropType> = ({
   const handleClick = () => {
     switch (pegType) {
       case PegTypes.FilledSlot:
-        let newBoard: GameBoardChangesType = { ...emptyGameBoardChangesObj };
+        let newBoard: GameBoardChangesType = {
+          EmptySlot: [],
+          FilledSlot: [],
+          DroppableEmptySlot: [],
+          DeletePeg: [],
+          SelectedPeg: [],
+          InvisiblePeg: [],
+        };
         pegMap[pegId][0].forEach((k, index) => {
           if (
             (selfBoardState[k] === PegTypes.EmptySlot ||

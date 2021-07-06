@@ -73,6 +73,10 @@ const selfBoardStateReducer = (state: string[], action: BoardStateAction): strin
 
       return newState2;
 
+    case BoardStateActionTypes.CleanAndSelect:
+      const newState1 = action.payload as string[];
+      return newState1;
+
     default:
       return InitialGameBoardState;
   }
