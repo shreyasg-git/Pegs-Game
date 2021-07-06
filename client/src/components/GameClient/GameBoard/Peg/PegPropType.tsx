@@ -6,6 +6,6 @@ export interface PegPropType {
   pegType: PegTypes | string;
   selectedPeg: number | null;
   setSelectedPeg: React.Dispatch<React.SetStateAction<number | null>>;
-  selfBoardState: string[] | undefined;
-  selfBoardStateDispatch: React.Dispatch<BoardStateAction> | undefined;
+  selfBoardState: string[];
+  selfBoardStateDispatch: React.Dispatch<BoardStateAction>;
 }

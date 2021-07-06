@@ -1,12 +1,12 @@
 import React from "react"; // { useEffect, useState }
 import "./Peg.scss";
 import { PegPropType } from "./PegPropType";
-import { clearGameBoardArray, clearGameBoardArrayButExclude } from "../GameBoardUtils";
 
 import { GameBoardChangesType, emptyGameBoardChangesObj } from "types/GameStateChanges";
 import { PegTypes } from "types/PegTypes";
 import { BoardStateActionTypes } from "types/BoardStateActionType";
 
+import { clearGameBoardArray, clearGameBoardArrayButExclude } from "utils/clearArray";
 import { pegMap } from "gameConstraints/pegMap";
 
 const Peg: React.FC<PegPropType> = ({
@@ -23,18 +23,18 @@ const Peg: React.FC<PegPropType> = ({
         let newBoard: GameBoardChangesType = { ...emptyGameBoardChangesObj };
         pegMap[pegId][0].forEach((k, index) => {
           if (
-            (selfBoardState![k] === PegTypes.EmptySlot ||
-              selfBoardState![k] === PegTypes.DroppableEmptySlot) &&
-            (selfBoardState![pegMap[pegId][1][index]] === PegTypes.FilledSlot ||
-              selfBoardState![pegMap[pegId][1][index]] === PegTypes.SelectedPeg ||
-              selfBoardState![pegMap[pegId][1][index]] === PegTypes.DeletePeg)
+            (selfBoardState[k] === PegTypes.EmptySlot ||
+              selfBoardState[k] === PegTypes.DroppableEmptySlot) &&
+            (selfBoardState[pegMap[pegId][1][index]] === PegTypes.FilledSlot ||
+              selfBoardState[pegMap[pegId][1][index]] === PegTypes.SelectedPeg ||
+              selfBoardState[pegMap[pegId][1][index]] === PegTypes.DeletePeg)
           ) {
             newBoard.SelectedPeg.push(pegId);
             newBoard.DroppableEmptySlot.push(k);
             newBoard.DeletePeg.push(pegMap[pegId][1][index]);
           }
         });
-        selfBoardStateDispatch!({
+        selfBoardStateDispatch({
           type: BoardStateActionTypes.SelectAPeg,
           payload: newBoard,
         });
@@ -43,7 +43,7 @@ const Peg: React.FC<PegPropType> = ({
         break; // ======================================================================================================
 
       case PegTypes.DroppableEmptySlot:
-        let newBoardState2 = [...selfBoardState!];
+        let newBoardState2 = [...selfBoardState];
 
         newBoardState2[selectedPeg!] = PegTypes.EmptySlot;
         const jk = pegMap[selectedPeg!][0].indexOf(pegId);
@@ -58,7 +58,7 @@ const Peg: React.FC<PegPropType> = ({
           pegId,
         ]);
 
-        selfBoardStateDispatch!({
+        selfBoardStateDispatch({
           type: BoardStateActionTypes.CleanAndSelect,
           payload: newBoardState2,
         });
@@ -66,25 +66,25 @@ const Peg: React.FC<PegPropType> = ({
         break; // ======================================================================================================
 
       case PegTypes.DeletePeg:
-        let newBoardState3 = [...selfBoardState!];
+        let newBoardState3 = [...selfBoardState];
         // clearing previous changes
         newBoardState3 = clearGameBoardArray(newBoardState3);
 
         // making changes for current selection
         pegMap[pegId][0].forEach((k, index) => {
           if (
-            (selfBoardState![k] === PegTypes.EmptySlot ||
-              selfBoardState![k] === PegTypes.DroppableEmptySlot) &&
-            (selfBoardState![pegMap[pegId][1][index]] === PegTypes.FilledSlot ||
-              selfBoardState![pegMap[pegId][1][index]] === PegTypes.SelectedPeg ||
-              selfBoardState![pegMap[pegId][1][index]] === PegTypes.DeletePeg)
+            (selfBoardState[k] === PegTypes.EmptySlot ||
+              selfBoardState[k] === PegTypes.DroppableEmptySlot) &&
+            (selfBoardState[pegMap[pegId][1][index]] === PegTypes.FilledSlot ||
+              selfBoardState[pegMap[pegId][1][index]] === PegTypes.SelectedPeg ||
+              selfBoardState[pegMap[pegId][1][index]] === PegTypes.DeletePeg)
           ) {
             newBoardState3[pegId] = PegTypes.SelectedPeg;
             newBoardState3[k] = PegTypes.DroppableEmptySlot;
             newBoardState3[pegMap[pegId][1][index]] = PegTypes.DeletePeg;
           }
         });
-        selfBoardStateDispatch!({
+        selfBoardStateDispatch({
           type: BoardStateActionTypes.CleanAndSelect,
           payload: newBoardState3,
         });
