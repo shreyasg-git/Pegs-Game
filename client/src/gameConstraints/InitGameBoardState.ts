@@ -1,4 +1,4 @@
-import { PegTypes } from "./GameBoard/Peg/PegTypes";
+import { PegTypes } from "../types/PegTypes";
 export const InitialGameBoardState = [
   PegTypes.FilledSlot,
   PegTypes.FilledSlot,
