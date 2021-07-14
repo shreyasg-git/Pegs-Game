@@ -2,9 +2,9 @@ import { GameBoardChangesType } from "types/GameStateChanges";
 import { PegTypes } from "types/PegTypes";
 
 export const applyStateChangesToFrom = (
-  stateArrCopy: string[],
+  stateArrCopy: number[],
   changes: GameBoardChangesType
-): string[] => {
+): number[] => {
   stateArrCopy[changes.SelectedPeg![0]] = PegTypes.SelectedPeg;
   changes.DeletePeg!.forEach((pegId) => {
     stateArrCopy[pegId] = PegTypes.DeletePeg;

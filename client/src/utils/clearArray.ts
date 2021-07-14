@@ -1,6 +1,6 @@
 import { PegTypes } from "types/PegTypes";
 
-export const clearGameBoardArray = (gboard: string[]) => {
+export const clearGameBoardArray = (gboard: number[]) => {
   let newBoardState = [...gboard];
 
   newBoardState.forEach((peg, index) => {
@@ -15,7 +15,7 @@ export const clearGameBoardArray = (gboard: string[]) => {
   return newBoardState;
 };
 
-export const clearGameBoardArrayButExclude = (gboard: string[], exc: number[]) => {
+export const clearGameBoardArrayButExclude = (gboard: number[], exc: number[]) => {
   let newBoardState = [...gboard];
 
   newBoardState.forEach((peg, index) => {

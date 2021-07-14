@@ -61,7 +61,7 @@ const GameBoard: React.FC<GameBoardPropType> = () => {
 
 export default GameBoard;
 
-const selfBoardStateReducer = (state: string[], action: BoardStateAction): string[] => {
+const selfBoardStateReducer = (state: number[], action: BoardStateAction): number[] => {
   switch (action.type) {
     case BoardStateActionTypes.SelectAPeg:
       let newState2 = [...state];
@@ -74,7 +74,7 @@ const selfBoardStateReducer = (state: string[], action: BoardStateAction): strin
       return newState2;
 
     case BoardStateActionTypes.CleanAndSelect:
-      const newState1 = action.payload as string[];
+      const newState1 = action.payload as number[];
       return newState1;
 
     default:

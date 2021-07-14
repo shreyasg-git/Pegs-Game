@@ -8,6 +8,7 @@ import { BoardStateActionTypes } from "types/BoardStateActionType";
 
 import { clearGameBoardArray, clearGameBoardArrayButExclude } from "utils/clearArray";
 import { pegMap } from "gameConstraints/pegMap";
+import { intToPegTypeLookUp } from "types/PegTypes";
 
 const Peg: React.FC<PegPropType> = ({
   pegId,
@@ -57,7 +58,7 @@ const Peg: React.FC<PegPropType> = ({
         newBoardState2[pegMap[selectedPeg!][1][jk]] = PegTypes.EmptySlot;
         newBoardState2[pegId] = PegTypes.FilledSlot;
 
-        // TODO: need to write Reducer, and ACtion for this
+        // TODO: need to write Reducer, and Action for this
         // we need to clean board afterwards but we need to exclude the pegs which were just updated
         newBoardState2 = clearGameBoardArrayButExclude(newBoardState2, [
           selectedPeg!,
@@ -105,10 +106,10 @@ const Peg: React.FC<PegPropType> = ({
   };
 
   React.useEffect(() => {
-    console.log("Peg rerender", pegId, "->", pegType);
+    console.log("Peg rerender", pegId, "->", intToPegTypeLookUp[pegType]);
   }, [pegType, pegId]);
 
-  return <div className={pegType} onClick={handleClick}></div>;
+  return <div className={intToPegTypeLookUp[pegType] as string} onClick={handleClick}></div>;
 };
 
 export default Peg;
