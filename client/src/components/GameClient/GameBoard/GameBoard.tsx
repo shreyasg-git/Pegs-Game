@@ -11,6 +11,7 @@ import { clearGameBoardArray } from "utils/clearArray";
 import { BoardStateActionTypes, BoardStateAction } from "types/BoardStateActionType";
 import { applyStateChangesToFrom } from "utils/applyStateChanges";
 
+import vm1 from "utils/ValidMoves";
 const GameBoard: React.FC<GameBoardPropType> = () => {
   const [selectedPeg, setSelectedPeg] = React.useState<number | null>(null);
   const [selfBoardState, selfBoardStateDispatch] = useReducer(selfBoardStateReducer, [
@@ -19,6 +20,7 @@ const GameBoard: React.FC<GameBoardPropType> = () => {
 
   React.useEffect(() => {
     console.log("Gameboard Rerender/render", selectedPeg);
+    console.log("@@@@@@@@@", vm1.validMoves);
   }, [selectedPeg, selfBoardState]);
 
   const generateBoard = () => {

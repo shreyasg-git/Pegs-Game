@@ -9,6 +9,7 @@ import { BoardStateActionTypes } from "types/BoardStateActionType";
 import { clearGameBoardArray, clearGameBoardArrayButExclude } from "utils/clearArray";
 import { pegMap } from "gameConstraints/pegMap";
 import { intToPegTypeLookUp } from "types/PegTypes";
+import vm1 from "utils/ValidMoves";
 
 const Peg: React.FC<PegPropType> = ({
   pegId,
@@ -71,6 +72,7 @@ const Peg: React.FC<PegPropType> = ({
           payload: newBoardState2,
         });
         setSelectedPeg(null);
+        vm1.handleDropSlotCreation([4, 9, 16]);
         break; // ======================================================================================================
 
       case PegTypes.DeletePeg:
@@ -107,6 +109,7 @@ const Peg: React.FC<PegPropType> = ({
 
   React.useEffect(() => {
     console.log("Peg rerender", pegId, "->", intToPegTypeLookUp[pegType]);
+    // console.log("------------------", vm1.validMoves);
   }, [pegType, pegId]);
 
   return <div className={intToPegTypeLookUp[pegType] as string} onClick={handleClick}></div>;
