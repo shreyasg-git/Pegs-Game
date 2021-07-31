@@ -2,7 +2,16 @@ type pegMapType = {
   [key: number]: number[][];
 };
 
-// 'pegId': [[Drop Locations],[Pegs to Delete]]
+// 'pegId': [[(possible) Drop Locations], [(possible)Pegs to Delete]]
+// above format can be interchanged acc to use. It is just a mapping like -
+//  'peg at center' : [ outer pegs in the cross (at the Edge)], [Middle pegs in the cross]
+//  a cross is -
+//        E
+//        M
+//    E M X M E
+//        M
+//        E
+
 export const pegMap: pegMapType = {
   0: [
     [8, 2],
