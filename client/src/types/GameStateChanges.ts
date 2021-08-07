@@ -1,10 +1,10 @@
 export type GameBoardChangesType = {
-  EmptySlot: number[];
-  FilledSlot: number[];
-  DroppableEmptySlot: number[];
-  DeletePeg: number[];
-  SelectedPeg: number[];
-  InvisiblePeg: number[];
+  EmptySlot: number[][];
+  FilledSlot: number[][];
+  DroppableEmptySlot: number[][];
+  DeletePeg: number[][];
+  SelectedPeg: number[][];
+  InvisiblePeg: number[][];
 };
 
 export const emptyGameBoardChangesObj = {

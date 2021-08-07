@@ -4,8 +4,9 @@ export interface PegPropType {
   key: number;
   pegId: number;
   pegType: PegTypes | number;
-  selectedPeg: number | null;
-  setSelectedPeg: React.Dispatch<React.SetStateAction<number | null>>;
-  selfBoardState: number[];
+  pegCoords: number[];
+  selectedPeg: number[] | null;
+  setSelectedPeg: React.Dispatch<React.SetStateAction<number[] | null>>;
+  selfBoardState: number[][];
   selfBoardStateDispatch: React.Dispatch<BoardStateAction>;
 }

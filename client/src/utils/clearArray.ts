@@ -1,34 +1,38 @@
 import { PegTypes } from "types/PegTypes";
 
-export const clearGameBoardArray = (gboard: number[]) => {
+export const clearGameBoardArray = (gboard: number[][]) => {
   let newBoardState = [...gboard];
 
-  newBoardState.forEach((peg, index) => {
-    if (peg === PegTypes.DeletePeg) {
-      newBoardState[index] = PegTypes.FilledSlot;
-    } else if (peg === PegTypes.DroppableEmptySlot) {
-      newBoardState[index] = PegTypes.EmptySlot;
-    } else if (peg === PegTypes.SelectedPeg) {
-      newBoardState[index] = PegTypes.FilledSlot;
-    }
+  newBoardState.forEach((row, rowNo) => {
+    row.forEach((pegtyp, colNo) => {
+      if (pegtyp === PegTypes.DeletePeg) {
+        newBoardState[rowNo][colNo] = PegTypes.FilledSlot;
+      } else if (pegtyp === PegTypes.DroppableEmptySlot) {
+        newBoardState[rowNo][colNo] = PegTypes.EmptySlot;
+      } else if (pegtyp === PegTypes.SelectedPeg) {
+        newBoardState[rowNo][colNo] = PegTypes.FilledSlot;
+      }
+    });
   });
   return newBoardState;
 };
 
-export const clearGameBoardArrayButExclude = (gboard: number[], exc: number[]) => {
+export const clearGameBoardArrayButExclude = (gboard: number[][], exc: number[][]) => {
   let newBoardState = [...gboard];
 
-  newBoardState.forEach((peg, index) => {
-    if (exc.includes(index)) {
-      return;
-    }
-    if (peg === PegTypes.DeletePeg) {
-      newBoardState[index] = PegTypes.FilledSlot;
-    } else if (peg === PegTypes.DroppableEmptySlot) {
-      newBoardState[index] = PegTypes.EmptySlot;
-    } else if (peg === PegTypes.SelectedPeg) {
-      newBoardState[index] = PegTypes.FilledSlot;
-    }
+  newBoardState.forEach((row, rowNo) => {
+    row.forEach((pegtyp, colNo) => {
+      if (exc.includes([rowNo, colNo])) {
+        return;
+      }
+      if (pegtyp === PegTypes.DeletePeg) {
+        newBoardState[rowNo][colNo] = PegTypes.FilledSlot;
+      } else if (pegtyp === PegTypes.DroppableEmptySlot) {
+        newBoardState[rowNo][colNo] = PegTypes.EmptySlot;
+      } else if (pegtyp === PegTypes.SelectedPeg) {
+        newBoardState[rowNo][colNo] = PegTypes.FilledSlot;
+      }
+    });
   });
   return newBoardState;
 };

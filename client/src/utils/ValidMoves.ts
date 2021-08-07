@@ -2,7 +2,48 @@
 import { MoveIndices } from "types/Move";
 import { PegTypes } from "types/PegTypes";
 import { pegMap } from "gameConstraints/pegMap";
-import { InitialGameBoardState } from "gameConstraints/InitGameBoardState";
+// import { InitialGameBoardState } from "gameConstraints/InitGameBoardState";
+const InitialGameBoardState = [
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.EmptySlot, // Main
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+  PegTypes.FilledSlot,
+];
 class ValidMoves {
   validMoves: number[][];
   currentGameState: PegTypes[];
