@@ -2,16 +2,13 @@ import Peg from "./Peg";
 import React, { useReducer } from "react";
 import "./GameBoard.scss";
 
-import { GameBoardChangesType } from "types/GameStateChanges";
+import { selfBoardStateReducer } from "reducers/selfBoardStateReducer";
 import { GameBoardPropType } from "./GameBoardPropTypes";
-import { clearGameBoardArray } from "utils/clearArray";
-import { BoardStateActionTypes, BoardStateAction } from "types/BoardStateActionType";
-import { applyStateChangesToFrom } from "utils/applyStateChanges";
 import { InitGameBoardState2 } from "gameConstraints/InitGameBoardState";
 
 import vm1 from "utils/ValidMoves";
 const GameBoard: React.FC<GameBoardPropType> = () => {
-  const [selectedPeg, setSelectedPeg] = React.useState<number[] | null>(null);
+  const [selectedPeg, setSelectedPeg] = React.useState<number[]>([-1, -1]);
   const [selfBoardState, selfBoardStateDispatch] = useReducer(selfBoardStateReducer, [
     ...InitGameBoardState2,
   ]);
@@ -28,7 +25,6 @@ const GameBoard: React.FC<GameBoardPropType> = () => {
         pegArray.push(
           <Peg
             key={7 * rowNo + colNo}
-            pegId={7 * rowNo + colNo}
             pegType={InitGameBoardState2[rowNo][colNo]}
             pegCoords={[rowNo, colNo]}
             selectedPeg={selectedPeg}
@@ -41,31 +37,7 @@ const GameBoard: React.FC<GameBoardPropType> = () => {
     });
     return pegArray;
   };
-
   return <div className="gameboard">{generateBoard()}</div>;
 };
 
 export default GameBoard;
-
-const selfBoardStateReducer = (state: number[][], action: BoardStateAction): number[][] => {
-  switch (action.type) {
-    case BoardStateActionTypes.CleanAndSelect:
-      let newState1 = [...state];
-      newState1 = clearGameBoardArray(newState1);
-      const payload1: GameBoardChangesType = { ...action.payload } as GameBoardChangesType;
-      newState1 = applyStateChangesToFrom(newState1, payload1);
-
-      return newState1;
-
-    case BoardStateActionTypes.SelectAPeg:
-      let newState2 = [...state];
-      newState2 = clearGameBoardArray(newState2);
-      const payload2: GameBoardChangesType = { ...action.payload } as GameBoardChangesType;
-      // applying changes to newState2
-      newState2 = applyStateChangesToFrom(newState2, payload2);
-      return newState2;
-
-    default:
-      return InitGameBoardState2;
-  }
-};

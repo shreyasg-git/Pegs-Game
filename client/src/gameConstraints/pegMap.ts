@@ -12,6 +12,7 @@ type pegMapType = {
 //        M
 //        E
 
+// TODO: remove this
 export const pegMap: pegMapType = {
   0: [
     [8, 2],

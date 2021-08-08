@@ -5,20 +5,19 @@ export const applyStateChangesToFrom = (
   stateArrCopy: number[][],
   changes: GameBoardChangesType
 ): number[][] => {
-  changes.SelectedPeg!.forEach((coords) => {
+  changes.SelectedPeg.forEach((coords) => {
     stateArrCopy[coords[0]][coords[1]] = PegTypes.SelectedPeg;
   });
-  changes.EmptySlot!.forEach((coords) => {
+  changes.EmptySlot.forEach((coords) => {
     stateArrCopy[coords[0]][coords[1]] = PegTypes.EmptySlot;
   });
-  changes.DeletePeg!.forEach((coords) => {
+  changes.DeletePeg.forEach((coords) => {
     stateArrCopy[coords[0]][coords[1]] = PegTypes.DeletePeg;
   });
-  changes.DroppableEmptySlot!.forEach((coords) => {
+  changes.DroppableEmptySlot.forEach((coords) => {
     stateArrCopy[coords[0]][coords[1]] = PegTypes.DroppableEmptySlot;
   });
-
-  changes.FilledSlot!.forEach((coords) => {
+  changes.FilledSlot.forEach((coords) => {
     stateArrCopy[coords[0]][coords[1]] = PegTypes.FilledSlot;
   });
 
@@ -28,7 +27,6 @@ export const applyStateChangesToFrom = (
 // SelectedPeg: [],
 // DeletePeg: [],
 // DroppableEmptySlot: [],
-//
 // EmptySlot: [],
 // FilledSlot: [],
 // InvisiblePeg: [],
