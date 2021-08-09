@@ -4,9 +4,7 @@ import { PegTypes } from "types/PegTypes";
 import { InitGameBoardState2 } from "gameConstraints/InitGameBoardState";
 // import { pegMap } from "gameConstraints/pegMap";
 import { getNeighbors, getNeighborsOfNeighbors } from "./getVicinity";
-import { pegMap } from "gameConstraints/pegMap";
-// TODO: this is still using 1d array...change it 2d fast
-// import { InitialGameBoardState } from "gameConstraints/InitGameBoardState";
+// import { pegMap } from "kgameConstraints/pegMap";
 
 class ValidMoves {
   validMoves: number[][][];
@@ -152,6 +150,8 @@ class ValidMoves {
   handleDropSlotDestruction(move: number[][]) {
     this.validMoves = this.validMoves.filter((m) => {
       if (isSameCoord(move[2], m[2])) {
+        console.log("deleting>>>", m);
+
         return false;
       }
       return true;

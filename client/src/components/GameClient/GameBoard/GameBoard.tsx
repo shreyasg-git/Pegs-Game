@@ -15,7 +15,7 @@ const GameBoard: React.FC<GameBoardPropType> = () => {
 
   React.useEffect(() => {
     console.log("Gameboard Rerender/render", selectedPeg);
-    console.log("@@@@@@@@@", vm1.validMoves);
+    console.table(vm1.validMoves);
   }, [selectedPeg, selfBoardState]);
 
   const generateBoard = () => {

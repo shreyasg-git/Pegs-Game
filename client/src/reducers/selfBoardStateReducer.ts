@@ -3,6 +3,7 @@ import { clearGameBoardArray } from "utils/clearArray";
 import { applyStateChangesToFrom } from "utils/applyStateChanges";
 import { GameBoardChangesType } from "types/GameStateChanges";
 import { InitGameBoardState2 } from "gameConstraints/InitGameBoardState";
+import vm1 from "utils/ValidMoves";
 
 export const selfBoardStateReducer = (state: number[][], action: BoardStateAction): number[][] => {
   switch (action.type) {
@@ -11,7 +12,11 @@ export const selfBoardStateReducer = (state: number[][], action: BoardStateActio
       newState1 = clearGameBoardArray(newState1);
       const payload1: GameBoardChangesType = { ...action.payload } as GameBoardChangesType;
       newState1 = applyStateChangesToFrom(newState1, payload1);
-
+      vm1.calculateNewValidMoves([
+        payload1.EmptySlot[0],
+        payload1.EmptySlot[1],
+        payload1.FilledSlot[0],
+      ]);
       return newState1;
 
     case BoardStateActionTypes.SelectAPeg:

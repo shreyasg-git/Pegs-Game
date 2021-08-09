@@ -4,7 +4,7 @@ import { PegPropType } from "./PegPropType";
 import { GameBoardChangesType } from "types/GameStateChanges";
 import { PegTypes, intToPegTypeLookUp } from "types/PegTypes";
 import { BoardStateActionTypes } from "types/BoardStateActionType";
-import vm1 from "utils/ValidMoves";
+// import vm1 from "utils/ValidMoves";
 import { getNeighbors, getNeighborsOfNeighbors } from "utils/getVicinity";
 
 const Peg: React.FC<PegPropType> = ({
@@ -66,10 +66,10 @@ const Peg: React.FC<PegPropType> = ({
         InvisiblePeg: [],
       };
 
-      newBoard.EmptySlot.push(selectedPeg!);
+      newBoard.EmptySlot.push(selectedPeg);
       let jk = -1;
       neighborsOfNeighbors.forEach((naybore, index) => {
-        if (naybore[0] === selectedPeg![0] && naybore[1] === selectedPeg![1]) {
+        if (naybore[0] === selectedPeg[0] && naybore[1] === selectedPeg[1]) {
           jk = index;
         }
       });
@@ -81,13 +81,12 @@ const Peg: React.FC<PegPropType> = ({
         type: BoardStateActionTypes.MoveComplete,
         payload: newBoard,
       });
-      // TODO: set to [-1, -1] instead of null
       setSelectedPeg([-1, -1]);
-      vm1.calculateNewValidMoves([
-        [1, 3],
-        [2, 3],
-        [3, 3],
-      ]);
+      // vm1.calculateNewValidMoves([
+      //   [1, 3],
+      //   [2, 3],
+      //   [3, 3],
+      // ]);
     }
   };
   React.useEffect(() => {
