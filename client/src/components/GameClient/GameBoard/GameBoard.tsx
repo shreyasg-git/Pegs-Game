@@ -15,7 +15,11 @@ const GameBoard: React.FC<GameBoardPropType> = () => {
 
   React.useEffect(() => {
     console.log("Gameboard Rerender/render", selectedPeg);
-    console.table(vm1.validMoves);
+    // TODO: console.table
+    console.log("VALID MOVES", vm1.validMoves);
+    if (vm1.validMoves.length === 0) {
+      console.log("GAME OVER");
+    }
   }, [selectedPeg, selfBoardState]);
 
   const generateBoard = () => {

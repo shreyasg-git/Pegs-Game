@@ -3,15 +3,18 @@ import { MoveIndices } from "types/Move";
 import { PegTypes } from "types/PegTypes";
 import { InitGameBoardState2 } from "gameConstraints/InitGameBoardState";
 // import { pegMap } from "gameConstraints/pegMap";
-import { getNeighbors, getNeighborsOfNeighbors } from "./getVicinity";
+import { getNeighbors, getNeighborsIgnoreEdges, getNeighborsOfNeighbors } from "./getVicinity";
 // import { pegMap } from "kgameConstraints/pegMap";
 
 class ValidMoves {
+  count: number;
   validMoves: number[][][];
   currentGameState: PegTypes[][];
-
+  movesHistory: number[][][];
   constructor(currentGameState: PegTypes[][]) {
+    this.count = 0;
     this.currentGameState = currentGameState;
+    this.movesHistory = [];
     this.validMoves = [
       [
         [1, 3],
@@ -34,10 +37,13 @@ class ValidMoves {
         [3, 3],
       ],
     ];
-    console.log(this.validMoves[0][MoveIndices.ToBeDeleted]);
+    // console.log(this.validMoves[0][MoveIndices.ToBeDeleted]);
   }
 
   calculateNewValidMoves(moveMade: number[][]) {
+    this.count++;
+    console.log(this.count);
+
     // The move needs to reflected in local state so that it is updated. (this is only needed in the case where
     // this.currentGameBoardState is being handled seperately, later white intergrating this with the game,
     // this.currentGameBoardState should point to the original state array so it wont need this updating)
@@ -45,20 +51,27 @@ class ValidMoves {
     this.currentGameState[moveMade[1][0]][moveMade[1][1]] = PegTypes.EmptySlot;
     this.currentGameState[moveMade[2][0]][moveMade[2][1]] = PegTypes.FilledSlot;
 
+    this.movesHistory.push(moveMade);
+    console.log("MOVE HISTORY", this.movesHistory);
+
+    this.handleFilledSlotDestruction(moveMade);
+    this.handleDropSlotDestruction(moveMade);
+
     const m1 = this.handleDropSlotCreation(moveMade);
-    const m2 = this.handleFilledSlotCreation(moveMade);
+    // console.log("DROP SLOT CREATION", moveMade, m1);
 
     m1.forEach((m) => {
       this.validMoves.push(m);
     });
 
+    const m2 = this.handleFilledSlotCreation(moveMade);
+    // console.log("FILLED SLOT CREATION", m2.length, moveMade, m2);
+
     m2.forEach((m) => {
       this.validMoves.push(m);
     });
 
-    this.handleFilledSlotDestruction(moveMade);
-    this.handleDropSlotDestruction(moveMade);
-    console.log(this.validMoves);
+    // console.log(this.validMoves);
   }
 
   // to be accessed from calculateNewValidMoves only !!!
@@ -72,7 +85,7 @@ class ValidMoves {
     neighbors0.forEach((e, index) => {
       if (
         this.currentGameState[e[0]][e[1]] === PegTypes.FilledSlot &&
-        this.currentGameState[neighborsOfNeighbors0[index][0]][neighborsOfNeighbors0[index][0]] ===
+        this.currentGameState[neighborsOfNeighbors0[index][0]][neighborsOfNeighbors0[index][1]] ===
           PegTypes.FilledSlot
       ) {
         newMovesCreated.push([neighborsOfNeighbors0[index], e, move[0]]);
@@ -86,7 +99,7 @@ class ValidMoves {
     neighbors1.forEach((e, index) => {
       if (
         this.currentGameState[e[0]][e[1]] === PegTypes.FilledSlot &&
-        this.currentGameState[neighborsOfNeighbors1[index][0]][neighborsOfNeighbors1[index][0]] ===
+        this.currentGameState[neighborsOfNeighbors1[index][0]][neighborsOfNeighbors1[index][1]] ===
           PegTypes.FilledSlot
       ) {
         newMovesCreated.push([neighborsOfNeighbors1[index], e, move[1]]);
@@ -99,6 +112,7 @@ class ValidMoves {
   handleFilledSlotCreation(move: number[][]): number[][][] {
     const newMovesCreated: number[][][] = [];
     // 1. Possible pegToBeMoved 2. Possible pegToBeDeleted
+
     const neighbors0 = getNeighbors(move[2]);
     const neighborsOfNeighbors0 = getNeighborsOfNeighbors(move[2]);
     // case: 1 -
@@ -110,17 +124,25 @@ class ValidMoves {
       ) {
         console.log("THIS WAS HIT");
 
-        newMovesCreated.push([neighborsOfNeighbors0[i], toBeDel, move[2]]);
+        newMovesCreated.push([move[2], toBeDel, neighborsOfNeighbors0[i]]);
       }
     });
 
-    neighbors0.forEach((toBeMoved, i) => {
+    // CASE II (Possible PegToBeDeleted Candidate)
+    // we need all neighbors here (irrespective of neighborsofneighbrs)
+    const allNeighbors = getNeighborsIgnoreEdges(move[2]);
+
+    allNeighbors.forEach((toBeMoved, i) => {
       const j: number = getOppositeCords(i);
+
       if (
+        // allNeighbors[j] &&
         this.currentGameState[toBeMoved[0]][toBeMoved[1]] === PegTypes.FilledSlot &&
-        this.currentGameState[neighbors0[j][0]][neighbors0[j][1]] === PegTypes.EmptySlot
+        this.currentGameState[allNeighbors[j][0]][allNeighbors[j][1]] === PegTypes.EmptySlot
       ) {
-        newMovesCreated.push([toBeMoved, move[2], neighbors0[j]]);
+        // console.log(allNeighbors);
+
+        newMovesCreated.push([toBeMoved, move[2], allNeighbors[j]]);
       }
     });
 
@@ -128,15 +150,18 @@ class ValidMoves {
   }
 
   handleFilledSlotDestruction(move: number[][]) {
+    // just for saving and logging, this will store the moves which get deleted
+    const delMoves: number[][][] = [];
     // function for filter below
-    const ifPresent = (cords: number[][]) => {
+    const ifPresent = (move0: number[][]) => {
       if (
-        isSameCoord(move[0], cords[0]) ||
-        isSameCoord(move[0], cords[1]) ||
-        isSameCoord(move[1], cords[0]) ||
-        isSameCoord(move[1], cords[1])
+        isSameCoord(move[0], move0[0]) ||
+        isSameCoord(move[0], move0[1]) ||
+        isSameCoord(move[1], move0[0]) ||
+        isSameCoord(move[1], move0[1])
       ) {
-        console.log("deleting>>>", cords);
+        delMoves.push(move0);
+        // console.log("deleting>>>", move);
 
         return false;
       }
@@ -145,17 +170,21 @@ class ValidMoves {
       return true;
     };
     this.validMoves = this.validMoves.filter(ifPresent);
+    console.log("FILLED_SLOT DEST", delMoves.length, move, delMoves);
   }
 
   handleDropSlotDestruction(move: number[][]) {
+    const delMoves: number[][][] = [];
+
     this.validMoves = this.validMoves.filter((m) => {
       if (isSameCoord(move[2], m[2])) {
-        console.log("deleting>>>", m);
-
+        delMoves.push(m);
         return false;
       }
       return true;
     });
+
+    console.log("DROP_SLOT DEST", delMoves.length, move, delMoves);
   }
 
   checkIfValidMovesAvailable(currentState: string[]) {}
@@ -163,7 +192,7 @@ class ValidMoves {
 
 const vm1 = new ValidMoves(InitGameBoardState2);
 // vm1.handleDropSlotCreation([4, 9, 16]);
-console.log(vm1.validMoves);
+// console.log(vm1.validMoves);
 
 const getOppositeCords = (k: number): number => {
   if (k === 0) {
@@ -179,7 +208,7 @@ const getOppositeCords = (k: number): number => {
 
 const isSameCoord = (cord1: number[], cord2: number[]) => {
   if (cord1[0] === cord2[0] && cord1[1] === cord2[1]) {
-    console.log("compared...", cord1, cord2, true);
+    // console.log("compared...", cord1, cord2, true);
     return true;
   }
 
