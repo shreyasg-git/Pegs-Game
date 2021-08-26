@@ -6,26 +6,30 @@ import { selfBoardStateReducer } from "reducers/selfBoardStateReducer";
 import { GameBoardPropType } from "./GameBoardPropTypes";
 import { InitGameBoardState2 } from "gameConstraints/InitGameBoardState";
 
-import vm1 from "utils/ValidMoves";
+import vm from "utils/ValidMoves";
 const GameBoard: React.FC<GameBoardPropType> = () => {
   const [selectedPeg, setSelectedPeg] = React.useState<number[]>([-1, -1]);
   const [selfBoardState, selfBoardStateDispatch] = useReducer(selfBoardStateReducer, [
     ...InitGameBoardState2,
   ]);
+  const [gameStatus, setGameStatus] = React.useState<string>("ON");
 
   React.useEffect(() => {
-    console.log("Gameboard Rerender/render", selectedPeg);
-    // TODO: console.table
-    console.log("VALID MOVES", vm1.validMoves);
-    if (vm1.validMoves.length === 0) {
-      console.log("GAME OVER");
+    console.log("# Gameboard Rerender/render", selectedPeg);
+    const validMoveCount = vm.printValidMovesWithoutRepeatitionsAndReturnCount(0);
+    // console.log("VALID MOVES", vm.validMoves);
+    if (validMoveCount === 0) {
+      setGameStatus("OVER");
+      console.log(
+        "======================================GAME OVER======================================"
+      );
     }
-  }, [selectedPeg, selfBoardState]);
+  }, [selectedPeg, gameStatus]);
 
   const generateBoard = () => {
     let pegArray: JSX.Element[] = [];
     InitGameBoardState2.forEach((line, rowNo) => {
-      line.forEach((pegTyp, colNo) => {
+      line.forEach((_, colNo) => {
         pegArray.push(
           <Peg
             key={7 * rowNo + colNo}
@@ -41,7 +45,12 @@ const GameBoard: React.FC<GameBoardPropType> = () => {
     });
     return pegArray;
   };
-  return <div className="gameboard">{generateBoard()}</div>;
+  return (
+    <div>
+      <div className="gameboard">{generateBoard()}</div>
+      <div>{gameStatus === "OVER" ? gameStatus : null}</div>
+    </div>
+  );
 };
 
 export default GameBoard;

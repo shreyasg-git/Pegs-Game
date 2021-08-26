@@ -1,5 +1,5 @@
 // import { InitialGameBoardState } from "gameConstraints/InitGameBoardState";
-import { MoveIndices } from "types/Move";
+// import { MoveIndices } from "types/Move";
 import { PegTypes } from "types/PegTypes";
 import { InitGameBoardState2 } from "gameConstraints/InitGameBoardState";
 // import { pegMap } from "gameConstraints/pegMap";
@@ -7,12 +7,10 @@ import { getNeighbors, getNeighborsIgnoreEdges, getNeighborsOfNeighbors } from "
 // import { pegMap } from "kgameConstraints/pegMap";
 
 class ValidMoves {
-  count: number;
   validMoves: number[][][];
   currentGameState: PegTypes[][];
   movesHistory: number[][][];
   constructor(currentGameState: PegTypes[][]) {
-    this.count = 0;
     this.currentGameState = currentGameState;
     this.movesHistory = [];
     this.validMoves = [
@@ -41,9 +39,6 @@ class ValidMoves {
   }
 
   calculateNewValidMoves(moveMade: number[][]) {
-    this.count++;
-    console.log(this.count);
-
     // The move needs to reflected in local state so that it is updated. (this is only needed in the case where
     // this.currentGameBoardState is being handled seperately, later white intergrating this with the game,
     // this.currentGameBoardState should point to the original state array so it wont need this updating)
@@ -52,7 +47,7 @@ class ValidMoves {
     this.currentGameState[moveMade[2][0]][moveMade[2][1]] = PegTypes.FilledSlot;
 
     this.movesHistory.push(moveMade);
-    console.log("MOVE HISTORY", this.movesHistory);
+    // console.log("MOVE HISTORY", this.movesHistory);
 
     this.handleFilledSlotDestruction(moveMade);
     this.handleDropSlotDestruction(moveMade);
@@ -71,6 +66,7 @@ class ValidMoves {
       this.validMoves.push(m);
     });
 
+    // this.printValidMovesWithoutRepeatitionsAndReturnCount();
     // console.log(this.validMoves);
   }
 
@@ -122,8 +118,6 @@ class ValidMoves {
         this.currentGameState[neighborsOfNeighbors0[i][0]][neighborsOfNeighbors0[i][1]] ===
           PegTypes.EmptySlot
       ) {
-        console.log("THIS WAS HIT");
-
         newMovesCreated.push([move[2], toBeDel, neighborsOfNeighbors0[i]]);
       }
     });
@@ -140,8 +134,6 @@ class ValidMoves {
         this.currentGameState[toBeMoved[0]][toBeMoved[1]] === PegTypes.FilledSlot &&
         this.currentGameState[allNeighbors[j][0]][allNeighbors[j][1]] === PegTypes.EmptySlot
       ) {
-        // console.log(allNeighbors);
-
         newMovesCreated.push([toBeMoved, move[2], allNeighbors[j]]);
       }
     });
@@ -161,21 +153,16 @@ class ValidMoves {
         isSameCoord(move[1], move0[1])
       ) {
         delMoves.push(move0);
-        // console.log("deleting>>>", move);
-
         return false;
       }
-      // console.log("beep beep");
-
       return true;
     };
     this.validMoves = this.validMoves.filter(ifPresent);
-    console.log("FILLED_SLOT DEST", delMoves.length, move, delMoves);
+    // console.log("FILLED_SLOT DEST", delMoves.length, move, delMoves);
   }
 
   handleDropSlotDestruction(move: number[][]) {
     const delMoves: number[][][] = [];
-
     this.validMoves = this.validMoves.filter((m) => {
       if (isSameCoord(move[2], m[2])) {
         delMoves.push(m);
@@ -183,16 +170,24 @@ class ValidMoves {
       }
       return true;
     });
-
-    console.log("DROP_SLOT DEST", delMoves.length, move, delMoves);
+    // console.log("DROP_SLOT DEST", delMoves.length, move, delMoves);
   }
 
-  checkIfValidMovesAvailable(currentState: string[]) {}
+  printValidMovesWithoutRepeatitionsAndReturnCount(printFlag: number = 1) {
+    const vm: string[] = [];
+    this.validMoves.forEach((move) => {
+      if (!vm.includes(move.flat().toString())) vm.push(move.flat().toString());
+    });
+
+    if (printFlag === 1) {
+      console.log(`Valid Moves (${vm.length})`, vm);
+    }
+
+    return vm.length;
+  }
 }
 
-const vm1 = new ValidMoves(InitGameBoardState2);
-// vm1.handleDropSlotCreation([4, 9, 16]);
-// console.log(vm1.validMoves);
+const vm = new ValidMoves(InitGameBoardState2);
 
 const getOppositeCords = (k: number): number => {
   if (k === 0) {
@@ -208,14 +203,12 @@ const getOppositeCords = (k: number): number => {
 
 const isSameCoord = (cord1: number[], cord2: number[]) => {
   if (cord1[0] === cord2[0] && cord1[1] === cord2[1]) {
-    // console.log("compared...", cord1, cord2, true);
     return true;
   }
-
   return false;
 };
 
-export default vm1;
+export default vm;
 
 // Calculate Valid Moves
 // Creation Phase -

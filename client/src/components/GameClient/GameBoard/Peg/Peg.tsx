@@ -91,7 +91,7 @@ const Peg: React.FC<PegPropType> = ({
   };
   React.useEffect(() => {
     // console.log("Peg rerender", 7 * pegCoords[0] + pegCoords[1], "->", intToPegTypeLookUp[pegType]);
-    console.log("___Peg Re-render___");
+    console.log("# Peg Re-render");
 
     // console.log("------------------", vm1.validMoves);
   }, [pegType, pegCoords]);
