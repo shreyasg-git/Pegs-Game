@@ -7,8 +7,9 @@ export enum BoardStateActionTypes {
   Redo = "REDO",
   Restart = "RESTART",
   SelectAPeg = "SELECT_A_PEG",
+  MoveComplete = "MOVE_COMPLETE",
 }
 export type BoardStateAction = {
   type: BoardStateActionTypes;
-  payload: number[] | Object | GameBoardChangesType;
+  payload: GameBoardChangesType;
 };
