@@ -5,6 +5,8 @@ const NavBar: React.FC<NavBarPropType> = () => {
   return (
     <div className="navbar">
       <div className="newgamebtn">New Game</div>
+      <div className="newgamebtn">New Game</div>
+      <div className="newgamebtn">New Game</div>
     </div>
   );
 };

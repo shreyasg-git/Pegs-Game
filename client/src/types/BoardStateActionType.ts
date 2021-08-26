@@ -11,5 +11,5 @@ export enum BoardStateActionTypes {
 }
 export type BoardStateAction = {
   type: BoardStateActionTypes;
-  payload: GameBoardChangesType;
+  payload: GameBoardChangesType | null;
 };

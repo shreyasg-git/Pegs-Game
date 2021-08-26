@@ -52,8 +52,6 @@ const Peg: React.FC<PegPropType> = ({
       setSelectedPeg(pegCoords);
       // =====================================================================================================================
     } else if (pegType === PegTypes.DroppableEmptySlot) {
-      // let newBoardState2 = [...selfBoardState];
-
       const neighborsOfNeighbors = getNeighborsOfNeighbors(pegCoords);
       const neighbors = getNeighbors(pegCoords);
 
@@ -82,18 +80,10 @@ const Peg: React.FC<PegPropType> = ({
         payload: newBoard,
       });
       setSelectedPeg([-1, -1]);
-      // vm1.calculateNewValidMoves([
-      //   [1, 3],
-      //   [2, 3],
-      //   [3, 3],
-      // ]);
     }
   };
   React.useEffect(() => {
-    // console.log("Peg rerender", 7 * pegCoords[0] + pegCoords[1], "->", intToPegTypeLookUp[pegType]);
     console.log("# Peg Re-render");
-
-    // console.log("------------------", vm1.validMoves);
   }, [pegType, pegCoords]);
 
   return <div className={intToPegTypeLookUp[pegType] as string} onClick={handleClick}></div>;

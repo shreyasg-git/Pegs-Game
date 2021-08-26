@@ -64,3 +64,6 @@ export const InitGameBoardState2: number[][] = [
     PegTypes.InvisiblePeg,
   ],
 ];
+export const InitGameBoardState3 = [...InitGameBoardState2];
+
+// export InitGameBoardState3

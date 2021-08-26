@@ -1,10 +1,6 @@
-// import { InitialGameBoardState } from "gameConstraints/InitGameBoardState";
-// import { MoveIndices } from "types/Move";
 import { PegTypes } from "types/PegTypes";
 import { InitGameBoardState2 } from "gameConstraints/InitGameBoardState";
-// import { pegMap } from "gameConstraints/pegMap";
 import { getNeighbors, getNeighborsIgnoreEdges, getNeighborsOfNeighbors } from "./getVicinity";
-// import { pegMap } from "kgameConstraints/pegMap";
 
 class ValidMoves {
   validMoves: number[][][];
@@ -185,9 +181,100 @@ class ValidMoves {
 
     return vm.length;
   }
+
+  newGame() {
+    this.currentGameState = [
+      [
+        PegTypes.InvisiblePeg,
+        PegTypes.InvisiblePeg,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.InvisiblePeg,
+        PegTypes.InvisiblePeg,
+      ],
+      [
+        PegTypes.InvisiblePeg,
+        PegTypes.InvisiblePeg,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.InvisiblePeg,
+        PegTypes.InvisiblePeg,
+      ],
+      [
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+      ],
+      [
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.EmptySlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+      ],
+      [
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+      ],
+      [
+        PegTypes.InvisiblePeg,
+        PegTypes.InvisiblePeg,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.InvisiblePeg,
+        PegTypes.InvisiblePeg,
+      ],
+      [
+        PegTypes.InvisiblePeg,
+        PegTypes.InvisiblePeg,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.FilledSlot,
+        PegTypes.InvisiblePeg,
+        PegTypes.InvisiblePeg,
+      ],
+    ];
+    this.movesHistory = [];
+    this.validMoves = [
+      [
+        [1, 3],
+        [2, 3],
+        [3, 3],
+      ],
+      [
+        [3, 5],
+        [3, 4],
+        [3, 3],
+      ],
+      [
+        [5, 3],
+        [4, 3],
+        [3, 3],
+      ],
+      [
+        [3, 1],
+        [3, 2],
+        [3, 3],
+      ],
+    ];
+  }
 }
 
-const vm = new ValidMoves(InitGameBoardState2);
+const vm = new ValidMoves([...InitGameBoardState2]);
 
 const getOppositeCords = (k: number): number => {
   if (k === 0) {

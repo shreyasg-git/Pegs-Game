@@ -1,19 +1,24 @@
 @import "./../GameBoard/Peg/Peg.scss";
 
 .navbar {
+  position: fixed;
+  width: 100%;
+  height: auto;
+  top: 0;
+  z-index: 2;
   background-color: red;
-  //   position: fixed;
-  display: block;
   height: 3rem;
-  //   margin: 0px 0px;
 }
 
 .newgamebtn {
-  display: inline-block;
+  float: inline-end;
+  position: relative;
+  text-align: center;
+  // display: inline-block;
   background-color: #898989;
   color: $NavyBlue;
-  padding: auto auto;
-  margin: auto auto;
+  padding: 1rem auto;
+  margin: 0.7rem 0.5rem;
   height: 1.5rem;
-  width: 5rem;
+  width: 6rem;
 }
