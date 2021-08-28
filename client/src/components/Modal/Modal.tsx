@@ -18,17 +18,16 @@ const Modal: React.FC<ModalPropsType> = ({ closeFunction, newGame }) => {
         >
           X
         </div>
-        <h1>Game Over!!!</h1>
-        <br />
-        You have ran out of moves :D
-      </div>
-      <div
-        className="new-game-btn"
-        onClick={() => {
-          newGame();
-        }}
-      >
-        New Game
+        <div className="game-over-msg">Game Over!!!</div>
+        <div className="ran-out-of-moves">You have ran out of moves :D</div>
+        <div
+          className="new-game-btn"
+          onClick={() => {
+            newGame();
+          }}
+        >
+          New Game
+        </div>
       </div>
     </div>
   );

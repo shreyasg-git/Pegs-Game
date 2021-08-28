@@ -69,7 +69,7 @@ const GameBoard: React.FC<GameBoardPropType> = () => {
       <div>
         {gameStatus === "OVER" ? <Modal closeFunction={closeModal} newGame={newGame} /> : null}
       </div>
-      {/* <Modal closeFunction={closeModal} /> */}
+      {/* <Modal closeFunction={closeModal} newGame={newGame} /> */}
     </div>
   );
 };

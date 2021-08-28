@@ -11,13 +11,11 @@
   //   opacity: 0.5;
 }
 
-.modal-active {
-  display: block;
-}
-
 .modal-body {
   display: block;
-  position: fixed;
+  // position: fixed;
+  // left: 22rem;
+  // top: 12rem;
 
   font-size: 1.5rem;
   font-family: Arial, Helvetica, sans-serif;
@@ -25,32 +23,47 @@
   width: 25rem;
   height: 15rem;
 
-  left: 22rem;
-  top: 12rem;
-
   text-align: center;
   padding: auto;
-  margin: auto;
+  margin: 13rem auto;
   background-color: rgb(255, 211, 211);
 }
 
 .close-btn {
-  position: fixed;
-  left: 46.5rem;
-  top: 11.2rem;
+  // position: fixed;
+  // left: 46.5rem;
+  // top: 11.2rem;
   //   transform: translate(385px);
+  // width: 1.5rem;
+
+  transform-origin: -50% -50%;
   z-index: 3;
+  margin-left: 94%;
+  font-size: 20px;
+  font-family: sans-serif;
+  // margin-top: 3%;
   background-color: red;
-  width: 1.5rem;
   border-radius: 5rem;
   cursor: pointer;
 }
 
+.game-over-msg {
+  margin: auto;
+  background-color: aliceblue;
+  font-size: 3rem;
+}
+
+.ran-out-of-moves {
+  // background-color: aqua;
+  margin: auto;
+  margin-top: 1rem;
+}
+
 .new-game-btn {
-  position: fixed;
-  left: 31rem;
-  top: 23.5rem;
-  padding-top: auto;
+  // position: fixed;
+  // left: 31rem;
+  // top: 23.5rem;
+  // padding-top: auto;
   text-align: center;
 
   font-size: 1.5rem;
@@ -61,4 +74,7 @@
   width: 8rem;
   height: auto;
   cursor: pointer;
+
+  margin: auto;
+  margin-top: 2rem;
 }
