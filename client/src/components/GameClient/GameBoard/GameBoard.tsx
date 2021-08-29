@@ -12,7 +12,8 @@ import vm from "utils/ValidMoves";
 import { BoardStateActionTypes } from "types/BoardStateActionType";
 import MenuBar from "./MenuBar";
 import { PegTypes } from "types/PegTypes";
-const GameBoard: React.FC<GameBoardPropType> = () => {
+
+const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
   const [selectedPeg, setSelectedPeg] = React.useState<number[]>([-1, -1]);
   const [selfBoardState, selfBoardStateDispatch] = useReducer(selfBoardStateReducer, [
     ...InitGameBoardState2,
@@ -83,8 +84,8 @@ const GameBoard: React.FC<GameBoardPropType> = () => {
           <Modal closeFunction={closeModal} newGame={newGame} pegsRemaining={pegsRemaining} />
         ) : null}
       </div>
-      <Modal closeFunction={closeModal} newGame={newGame} pegsRemaining={pegsRemaining} />
-      <MenuBar newGameFunction={newGame} />
+      {/* <Modal closeFunction={closeModal} newGame={newGame} pegsRemaining={pegsRemaining} /> */}
+      {type === "SELF" ? <MenuBar newGameFunction={newGame} /> : null}
     </>
   );
 };
