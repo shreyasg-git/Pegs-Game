@@ -1,5 +1,6 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useState } from "react";
 import GameBoard from "./GameBoard";
+// import MenuBar from "./GameBoard/MenuBar";
 import NavBar from "./NavBar";
 
 const GameClient: React.FC = () => {

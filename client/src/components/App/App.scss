@@ -1,6 +1,18 @@
 $mainBackground: #fff;
+$totalPegLength: 50px;
+$circleBorderRadius: 50%;
+$circularBorderWidth: 2px;
+$normalMargin: 5px;
+$NavyBlue: #172b4d;
+$RegularRed: #ff0000;
+$YellowSec: #fff8e1;
+$YellowPrimary: #fdcb6e;
+$BluePrimary: #5bacff;
+$BlueSec: #74b9ff;
 
 body {
   margin: 0 0;
   padding: 0 0;
+  background-color: #fff8e1;
+  font-family: Arial, Helvetica, sans-serif;
 }
