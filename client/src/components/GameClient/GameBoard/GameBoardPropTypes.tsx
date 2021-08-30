@@ -1,6 +1,6 @@
 // import React from "react";
 
-import { GameInfoType } from "../GameClient";
+import { GameInfoType } from "types/gameInfoType";
 
 export interface GameBoardPropType {
   type: string;

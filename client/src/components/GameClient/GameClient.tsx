@@ -3,16 +3,11 @@ import GameBoard from "./GameBoard";
 import "./GameClient.scss";
 // import MenuBar from "./GameBoard/MenuBar";
 import NavBar from "./NavBar";
+import { GameInfoType } from "types/gameInfoType";
 
 interface GameClientPropsType {
   gameInfo: GameInfoType;
 }
-
-export type GameInfoType = {
-  username1: string;
-  username2?: string | null;
-  isMultiplayer: boolean;
-};
 
 const GameClient: React.FC<GameClientPropsType> = ({ gameInfo }) => {
   // const [gameInfo, setGameInfo] = useState({ user1: "shreyasbg", isMultiplayer: true });

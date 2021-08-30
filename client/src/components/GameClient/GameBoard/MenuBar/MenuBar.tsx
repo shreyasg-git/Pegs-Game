@@ -2,7 +2,7 @@ import React from "react";
 import "./MenuBar.scss";
 import "./../../../Button/Button.scss";
 import Button from "components/Button";
-import { GameInfoType } from "./../../GameClient";
+import { GameInfoType } from "types/gameInfoType";
 import { Link } from "react-router-dom";
 interface MenuBarPropsType {
   newGameFunction?: Function;
