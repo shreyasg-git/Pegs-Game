@@ -13,11 +13,13 @@ import { BoardStateActionTypes } from "types/BoardStateActionType";
 import MenuBar from "./MenuBar";
 import { PegTypes } from "types/PegTypes";
 
-const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
+const GameBoard: React.FC<GameBoardPropType> = ({ type, gameInfo }) => {
   const [selectedPeg, setSelectedPeg] = React.useState<number[]>([-1, -1]);
-  const [selfBoardState, selfBoardStateDispatch] = useReducer(selfBoardStateReducer, [
-    ...InitGameBoardState2,
-  ]);
+  const [selfBoardState, selfBoardStateDispatch] = useReducer(
+    selfBoardStateReducer,
+    // just for deep copy !!! 2D arrays are different than 1D arrays
+    JSON.parse(JSON.stringify(InitGameBoardState2))
+  );
   const [gameStatus, setGameStatus] = React.useState<string>("ON");
   const [pegsRemaining, setPegsRemaining] = React.useState<number>(32);
 
@@ -37,7 +39,7 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
   };
 
   React.useEffect(() => {
-    console.log("# Gameboard Rerender/render", selectedPeg);
+    console.log("# Gameboard Rerender/render", selectedPeg, type);
     const validMoveCount = vm.printValidMovesWithoutRepeatitionsAndReturnCount(0);
     // console.log("VALID MOVES", vm.validMoves);
     if (validMoveCount === 0) {
@@ -55,13 +57,38 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
         "======================================GAME OVER======================================"
       );
     }
-  }, [selectedPeg, gameStatus, selfBoardState]);
+  }, [selectedPeg, gameStatus, selfBoardState, type]);
 
-  const generateBoard = () => {
-    let pegArray: JSX.Element[] = [];
-    selfBoardState.forEach((line, rowNo) => {
-      line.forEach((_, colNo) => {
-        pegArray.push(
+  // const generateBoard = () => {
+  //   console.log(type, ": GENERATING BOARD");
+
+  //   let pegArray: JSX.Element[] = [];
+  //   selfBoardState.forEach((line, rowNo) => {
+  //     line.forEach((_, colNo) => {
+  //       pegArray.push(
+  //         <Peg
+  //           key={7 * rowNo + colNo}
+  //           pegType={selfBoardState[rowNo][colNo]}
+  //           pegCoords={[rowNo, colNo]}
+  //           selectedPeg={selectedPeg}
+  //           setSelectedPeg={setSelectedPeg}
+  //           selfBoardState={selfBoardState}
+  //           selfBoardStateDispatch={selfBoardStateDispatch}
+  //         />
+  //       );
+  //     });
+  //   });
+  //   return pegArray;
+  // };
+
+  const generateBoardUsingMap = () => {
+    console.log(type, ": GENERATING BOARD");
+    // let pegArray: JSX.Element[] = [];
+
+    return selfBoardState.map((line, rowNo) => {
+      // '_' == each peg
+      return line.map((_, colNo) => {
+        return (
           <Peg
             key={7 * rowNo + colNo}
             pegType={selfBoardState[rowNo][colNo]}
@@ -74,18 +101,17 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
         );
       });
     });
-    return pegArray;
   };
   return (
     <>
-      <div className="gameboard">{generateBoard()}</div>
+      <div className="gameboard">{generateBoardUsingMap()}</div>
       <div>
         {gameStatus === "OVER" ? (
           <Modal closeFunction={closeModal} newGame={newGame} pegsRemaining={pegsRemaining} />
         ) : null}
       </div>
       {/* <Modal closeFunction={closeModal} newGame={newGame} pegsRemaining={pegsRemaining} /> */}
-      {type === "SELF" ? <MenuBar newGameFunction={newGame} /> : null}
+      {type === "SELF" ? <MenuBar newGameFunction={newGame} gameInfo={gameInfo} /> : null}
     </>
   );
 };

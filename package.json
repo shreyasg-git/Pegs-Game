@@ -15,5 +15,7 @@
     "install-server": "cd server && npm i"
   },
   "author": "shreyas",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {}
 }
