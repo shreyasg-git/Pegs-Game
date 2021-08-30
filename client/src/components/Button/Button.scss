@@ -1,0 +1,16 @@
+@import "./../App/App.scss";
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 0;
+  margin: auto;
+  width: 8rem;
+  height: 2rem;
+
+  font-size: 1.5rem;
+  background-color: $YellowPrimary;
+  cursor: pointer;
+}

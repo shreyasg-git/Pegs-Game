@@ -1,9 +1,4 @@
-$totalPegLength: 50px;
-$circleBorderRadius: 50%;
-$circularBorderWidth: 2px;
-$normalMargin: 5px;
-$NavyBlue: #172b4d;
-$RegularRed: #ff0000;
+@import "./../../../App/App.scss";
 
 // 13+ 24 + 13 =  50
 .EmptySlot {

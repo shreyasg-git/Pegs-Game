@@ -1,0 +1,58 @@
+@import "./../App/App.scss";
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 3;
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  //   opacity: 0.5;
+}
+
+.modal-body {
+  display: block;
+  border-radius: 0.3rem;
+  font-size: 1.5rem;
+  width: 25rem;
+  height: 15rem;
+  text-align: center;
+  padding: auto;
+  margin: 13rem auto;
+  background-color: $YellowSec;
+}
+
+.close-btn {
+  z-index: 3;
+  margin-left: 94%;
+  font-size: 20px;
+  font-family: sans-serif;
+  // background-color: #fdcb6e;
+  border-radius: 5rem;
+  cursor: pointer;
+}
+
+.game-over-msg {
+  margin: auto;
+  font-size: 3rem;
+}
+
+.ran-out-of-moves {
+  margin: auto;
+  margin-top: 2rem;
+}
+
+.new-game-btn {
+  text-align: center;
+  font-size: 1.5rem;
+  z-index: 3;
+  background-color: red;
+  width: 8rem;
+  height: auto;
+  cursor: pointer;
+  margin: auto;
+  margin-top: 2rem;
+}
