@@ -1,0 +1,55 @@
+@import "./../App/App.scss";
+
+.btn-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 0;
+  margin: 1rem auto;
+  width: 12rem;
+  height: 3rem;
+
+  font-size: 1.5rem;
+  background-color: $YellowPrimary;
+  cursor: pointer;
+  border: solid 1px $YellowSec;
+  border-radius: 0.3rem;
+}
+.btn-link:hover {
+  border: solid 1px $NavyBlue;
+}
+
+.homepage {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  //   background-color: aqua;
+  font-size: 0px;
+}
+
+/* unvisited link */
+a:link {
+  color: $NavyBlue;
+  text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+  color: $NavyBlue;
+  text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+  color: $NavyBlue;
+  text-decoration: none;
+}
+
+/* selected link */
+a:active {
+  color: $NavyBlue;
+  text-decoration: none;
+}
