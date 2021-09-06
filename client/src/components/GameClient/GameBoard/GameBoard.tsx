@@ -41,7 +41,6 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type, gameInfo }) => {
   React.useEffect(() => {
     console.log("# Gameboard Rerender/render", selectedPeg, type);
     const validMoveCount = vm.printValidMovesWithoutRepeatitionsAndReturnCount(0);
-    // console.log("VALID MOVES", vm.validMoves);
     if (validMoveCount === 0) {
       let pegsRemain: number = 0;
       selfBoardState.forEach((rows) => {
@@ -59,28 +58,6 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type, gameInfo }) => {
     }
   }, [selectedPeg, gameStatus, selfBoardState, type]);
 
-  // const generateBoard = () => {
-  //   console.log(type, ": GENERATING BOARD");
-
-  //   let pegArray: JSX.Element[] = [];
-  //   selfBoardState.forEach((line, rowNo) => {
-  //     line.forEach((_, colNo) => {
-  //       pegArray.push(
-  //         <Peg
-  //           key={7 * rowNo + colNo}
-  //           pegType={selfBoardState[rowNo][colNo]}
-  //           pegCoords={[rowNo, colNo]}
-  //           selectedPeg={selectedPeg}
-  //           setSelectedPeg={setSelectedPeg}
-  //           selfBoardState={selfBoardState}
-  //           selfBoardStateDispatch={selfBoardStateDispatch}
-  //         />
-  //       );
-  //     });
-  //   });
-  //   return pegArray;
-  // };
-
   const generateBoardUsingMap = () => {
     console.log(type, ": GENERATING BOARD");
     // let pegArray: JSX.Element[] = [];
@@ -97,6 +74,7 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type, gameInfo }) => {
             setSelectedPeg={setSelectedPeg}
             selfBoardState={selfBoardState}
             selfBoardStateDispatch={selfBoardStateDispatch}
+            type={type}
           />
         );
       });

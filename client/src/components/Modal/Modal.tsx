@@ -23,7 +23,7 @@ const Modal: React.FC<ModalPropsType> = ({ closeFunction, newGame, pegsRemaining
         <div className="game-over-msg">Game Over!!!</div>
         <div className="ran-out-of-moves">You have ran out of moves :D</div>
         Score: {32 - pegsRemaining}
-        <Button clickHandler={newGame} title={"New Game"} style={{ "margin-top": "1.5rem" }} />
+        <Button clickHandler={newGame} title={"New Game"} style={{ marginTop: "1.5rem" }} />
       </div>
     </div>
   );

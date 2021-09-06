@@ -9,4 +9,5 @@ export interface PegPropType {
   setSelectedPeg: React.Dispatch<React.SetStateAction<number[]>>;
   selfBoardState: number[][];
   selfBoardStateDispatch: React.Dispatch<BoardStateAction>;
+  type: String;
 }

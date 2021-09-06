@@ -15,6 +15,7 @@ const Peg: React.FC<PegPropType> = ({
   setSelectedPeg,
   selfBoardState,
   selfBoardStateDispatch,
+  type,
 }) => {
   const handleClick = () => {
     if (pegType === PegTypes.FilledSlot || pegType === PegTypes.DeletePeg) {
@@ -29,6 +30,8 @@ const Peg: React.FC<PegPropType> = ({
       const neighborsOfNeighbors = getNeighborsOfNeighbors(pegCoords);
       const neighbors = getNeighbors(pegCoords);
 
+      let changesFlag = false;
+
       neighbors.forEach((cords, index) => {
         if (
           (selfBoardState[neighborsOfNeighbors[index][0]][neighborsOfNeighbors[index][1]] ===
@@ -42,14 +45,17 @@ const Peg: React.FC<PegPropType> = ({
           newBoard.SelectedPeg.push(pegCoords);
           newBoard.DroppableEmptySlot.push(neighborsOfNeighbors[index]);
           newBoard.DeletePeg.push(cords);
+          changesFlag = true;
         }
       });
 
-      selfBoardStateDispatch({
-        type: BoardStateActionTypes.SelectAPeg,
-        payload: newBoard,
-      });
-      setSelectedPeg(pegCoords);
+      if (changesFlag) {
+        selfBoardStateDispatch({
+          type: BoardStateActionTypes.SelectAPeg,
+          payload: newBoard,
+        });
+        setSelectedPeg(pegCoords);
+      }
       // =====================================================================================================================
     } else if (pegType === PegTypes.DroppableEmptySlot) {
       const neighborsOfNeighbors = getNeighborsOfNeighbors(pegCoords);
@@ -86,7 +92,12 @@ const Peg: React.FC<PegPropType> = ({
     console.log("# Peg Re-render");
   }, [pegType, pegCoords]);
 
-  return <div className={intToPegTypeLookUp[pegType] as string} onClick={handleClick}></div>;
+  return (
+    <div
+      className={intToPegTypeLookUp[pegType] as string}
+      onClick={type === "SELF" ? handleClick : () => {}}
+    ></div>
+  );
 };
 
 export default Peg;
