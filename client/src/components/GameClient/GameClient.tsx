@@ -4,6 +4,7 @@ import "./GameClient.scss";
 // import MenuBar from "./GameBoard/MenuBar";
 import NavBar from "./NavBar";
 import { GameInfoType } from "types/gameInfoType";
+import selfSocketClient from "websockets/SocketClient";
 
 interface GameClientPropsType {
   gameInfo: GameInfoType;
@@ -11,6 +12,12 @@ interface GameClientPropsType {
 
 const GameClient: React.FC<GameClientPropsType> = ({ gameInfo }) => {
   // const [gameInfo, setGameInfo] = useState({ user1: "shreyasbg", isMultiplayer: true });
+
+  React.useEffect(() => {
+    if (gameInfo.isMultiplayer) {
+      selfSocketClient.startMultiplayerGame();
+    }
+  });
 
   return (
     <div className="gameclient">

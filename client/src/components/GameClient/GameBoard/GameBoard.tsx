@@ -9,12 +9,11 @@ import { GameBoardPropType } from "./GameBoardPropTypes";
 import { InitGameBoardState2 } from "gameConstraints/InitGameBoardState";
 
 import vm from "utils/ValidMoves";
-import SocketClient from "websocket";
 import { BoardStateActionTypes } from "types/BoardStateActionType";
 import MenuBar from "./MenuBar";
 import { PegTypes } from "types/PegTypes";
 
-const client = new SocketClient();
+import clientSocket from "websockets/SocketClient";
 
 const GameBoard: React.FC<GameBoardPropType> = ({ type, gameInfo }) => {
   const [selectedPeg, setSelectedPeg] = React.useState<number[]>([-1, -1]);
