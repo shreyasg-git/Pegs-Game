@@ -1,21 +1,16 @@
-import express, { Request, Response, NextFunction } from "express";
-import todoRoutes from "./routes/todos";
+import express from "express";
+import morgan from "morgan";
+import path from "path";
 const app = express();
 
-app.use("/todos", (req: Request, res: Response, next: NextFunction) => {
-  res.status(200).json({ msg: "Hello" });
+if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
+
+app.use(express.json());
+
+app.use("/", express.static(path.join(__dirname, "../../client/build")));
+
+app.get("/hello", (req, res) => {
+  res.status(200).json({ msg: "haalo" });
 });
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.log("Hello From The Middlewares");
-  res.status(500).json({ err: err.message });
-});
-app.get("/", (req: Request, res: Response, next: NextFunction) => {
-  res.status(200).json({ msg: "Hello" });
-});
-app
-  .listen(3001, () => {
-    console.log("server started on port ", 3001);
-  })
-  .on("error", (e) => {
-    console.log(e);
-  });
+
+export default app;
