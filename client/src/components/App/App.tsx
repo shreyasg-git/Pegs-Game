@@ -5,8 +5,15 @@ import "./App.scss";
 import GameClient from "../GameClient";
 import HomePage from "components/HomePage";
 // export const GameBoardUpdateContext = React.createContext({ gbState: [], setGBState:Dispatch<SetStateAction<never[]>>  });
+import { GameInfoType } from "types/gameInfoType";
 
 const App: React.FC = () => {
+  const [gameInfo, setGameInfo] = React.useState<GameInfoType>({
+    username1: "",
+    username2: "",
+    isMultiplayer: false,
+  });
+
   return (
     <Router>
       <div>
@@ -14,16 +21,16 @@ const App: React.FC = () => {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/singleplayer">
-            <GameClient gameInfo={{ username1: "shreyasbg", isMultiplayer: false }} />
+            <GameClient gameInfo={gameInfo} />
           </Route>
           <Route path="/multiplayer">
-            <GameClient gameInfo={{ username1: "shreyasbg", isMultiplayer: true }} />
+            <GameClient gameInfo={gameInfo} />
           </Route>
           <Route path="/homepage">
-            <HomePage />
+            <HomePage gameInfo={gameInfo} setGameInfo={setGameInfo} />
           </Route>
           <Route path="/">
-            <HomePage />
+            <HomePage gameInfo={gameInfo} setGameInfo={setGameInfo} />
           </Route>
         </Switch>
       </div>

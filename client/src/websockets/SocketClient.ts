@@ -10,6 +10,10 @@ class SocketClient {
     this.connectToServer();
   }
 
+  public disconnect() {
+    this._socket.disconnect();
+  }
+
   private connectToServer() {
     this._socket = io("/", {
       transports: ["websocket"],

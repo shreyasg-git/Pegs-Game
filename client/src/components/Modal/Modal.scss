@@ -45,14 +45,56 @@
   margin-top: 2rem;
 }
 
+.modal-body-2 {
+  display: block;
+  border-radius: 0.3rem;
+  font-size: 1.5rem;
+  width: 25rem;
+  height: 13rem;
+  text-align: center;
+  // padding: auto;
+  padding-top: 2rem;
+  margin: 13rem auto;
+  background-color: $YellowSec;
+}
+
 .new-game-btn {
   text-align: center;
   font-size: 1.5rem;
-  z-index: 3;
-  background-color: red;
+  // z-index: 3;
+  background-color: $BluePrimary;
   width: 8rem;
   height: auto;
   cursor: pointer;
   margin: auto;
+  margin-top: 2rem;
+}
+
+.modal-submit-btn {
+  text-align: center;
+  font-size: 1.5rem;
+  // z-index: 3;
+  background-color: $BluePrimary;
+  width: 8rem;
+  height: 2rem;
+  cursor: pointer;
+  margin: auto;
+  margin-top: 2rem;
+
+  border-style: none;
+
+  border-radius: 0.3rem;
+}
+
+.modal-input-element {
+  // margin: 2rem;
+  // padding-top: 4rem;
+
+  display: block;
+  margin: auto;
+  font-size: 1.3rem;
+  // margin-top: ;
+  width: 50%;
+  height: 2rem;
   margin-top: 2rem;
 }
