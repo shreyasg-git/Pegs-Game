@@ -1,11 +1,11 @@
-import React, { createContext, useReducer } from "react";
+import React, { useReducer } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
 
 import GameClient from "../GameClient";
 import HomePage from "components/HomePage";
 // export const GameBoardUpdateContext = React.createContext({ gbState: [], setGBState:Dispatch<SetStateAction<never[]>>  });
-import { GameInfoType, GameStatuses } from "types/gameInfoType";
+import { GameStatuses } from "types/GameInfoType";
 
 import GameInfoCxt from "GameInfoCxt";
 import { gameInfoReducer } from "reducers/gameInfoReducer";

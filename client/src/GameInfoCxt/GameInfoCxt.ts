@@ -1,12 +1,8 @@
 import { createContext } from "react";
-import { GameInfoType, GameStatuses } from "types/gameInfoType";
+import { GameInfoType, GameStatuses } from "types/GameInfoType";
 import { GameInfoActionType } from "reducers/gameInfoReducer";
-import {} from "types/gameInfoType";
+import GameInfoContextType from "types/GameInfoContextType";
 
-type GameInfoContextType = {
-  gameInfo: GameInfoType;
-  gameInfoDispatch: React.Dispatch<GameInfoActionType>;
-};
 const GameInfoCxt = createContext<GameInfoContextType>({
   gameInfo: {
     username1: "",
