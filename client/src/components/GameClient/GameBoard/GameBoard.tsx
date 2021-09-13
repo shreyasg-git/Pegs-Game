@@ -15,6 +15,8 @@ import MenuBar from "./MenuBar";
 import { PegTypes } from "types/PegTypes";
 
 import GameInfoCxt from "GameInfoCxt";
+import { GameInfoActionsEnum } from "reducers/gameInfoReducer";
+import { GameStatuses } from "types/GameInfoType";
 
 const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
   const { gameInfo, gameInfoDispatch } = React.useContext(GameInfoCxt);
@@ -25,17 +27,25 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
     // just for deep copy !!! 2D arrays are different than 1D arrays
     JSON.parse(JSON.stringify(InitGameBoardState2))
   );
-  const [gameStatus, setGameStatus] = React.useState<string>("ON");
+  // const [gameStatus, setGameStatus] = React.useState<string>("ON");
   const [pegsRemaining, setPegsRemaining] = React.useState<number>(32);
 
   const closeModal = () => {
-    setGameStatus("ANALYZING");
+    gameInfoDispatch({
+      type: GameInfoActionsEnum.setGameStatus,
+      payload: { newGameStatus: GameStatuses.Single_Analyzing },
+    });
+    // setGameStatus("ANALYZING");
     setSelectedPeg([-1, -1]);
     vm.newGame();
   };
 
   const newGame = () => {
-    setGameStatus("ON");
+    gameInfoDispatch({
+      type: GameInfoActionsEnum.setGameStatus,
+      payload: { newGameStatus: GameStatuses.Single_Intialized },
+    });
+    // setGameStatus("ON");
     vm.newGame();
     selfBoardStateDispatch({
       type: BoardStateActionTypes.NewGame,
@@ -45,8 +55,13 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
 
   React.useEffect(() => {
     console.log("# Gameboard Rerender/render", selectedPeg, type);
+    console.log(selfBoardState);
+
+    // if gameIsSinglePlayer
     if (!gameInfo.isMultiplayer) {
       const validMoveCount = vm.printValidMovesWithoutRepeatitionsAndReturnCount(0);
+      console.log(validMoveCount, "MOVES REMAINING");
+
       if (validMoveCount === 0) {
         let pegsRemain: number = 0;
         selfBoardState.forEach((rows) => {
@@ -57,19 +72,25 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
           });
         });
         setPegsRemaining(pegsRemain);
-        setGameStatus("OVER");
+        gameInfoDispatch({
+          type: GameInfoActionsEnum.setGameStatus,
+          payload: { newGameStatus: GameStatuses.Single_Over },
+        });
+        // setGameStatus("OVER");
         console.log("===================GAME OVER===================");
       }
     }
+  }, [
+    selectedPeg,
+    gameInfo.gameStatus,
+    gameInfoDispatch,
+    selfBoardState,
+    type,
+    gameInfo.isMultiplayer,
+  ]);
 
-    // return () => {
-    //   selfBoardStateDispatch({ type: BoardStateActionTypes.NewGame, payload: null });
-    // };
-  }, [selectedPeg, gameStatus, selfBoardState, type, gameInfo.isMultiplayer]);
-
-  const generateBoardUsingMap = () => {
+  const generateBoardUsingMap = (enableClicks: boolean) => {
     console.log(type, ": GENERATING BOARD");
-    // let pegArray: JSX.Element[] = [];
 
     return selfBoardState.map((line, rowNo) => {
       return line.map((_, colNo) => {
@@ -84,17 +105,21 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
             selfBoardState={selfBoardState}
             selfBoardStateDispatch={selfBoardStateDispatch}
             type={type}
+            enableClicks={enableClicks}
           />
         );
       });
     });
   };
+
+  // SinglePlayer -
+
   return (
     <>
       {gameInfo.username1 ? null : <Redirect to="/homepage" />}
-      <div className="gameboard">{generateBoardUsingMap()}</div>
+      <div className="gameboard">{generateBoardUsingMap(true)}</div>
       <div>
-        {gameStatus === "OVER" ? (
+        {gameInfo.gameStatus === GameStatuses.Single_Over ? (
           <Modal closeFunction={closeModal} newGame={newGame} pegsRemaining={pegsRemaining} />
         ) : null}
       </div>

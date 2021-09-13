@@ -16,8 +16,12 @@ const Peg: React.FC<PegPropType> = ({
   selfBoardState,
   selfBoardStateDispatch,
   type,
+  enableClicks,
 }) => {
   const handleClick = () => {
+    if (!enableClicks) {
+      return;
+    }
     if (pegType === PegTypes.FilledSlot || pegType === PegTypes.DeletePeg) {
       let newBoard: GameBoardChangesType = {
         EmptySlot: [],

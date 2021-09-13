@@ -10,4 +10,5 @@ export interface PegPropType {
   selfBoardState: number[][];
   selfBoardStateDispatch: React.Dispatch<BoardStateAction>;
   type: String;
+  enableClicks: boolean;
 }

@@ -7,7 +7,14 @@ export type GameInfoType = {
 
 export enum GameStatuses {
   NotInitiated,
-  WaitingForPlayer2,
-  OnGoing,
-  Over,
+  Single_Intialized,
+  Single_Playing,
+  Single_Over,
+  Single_Analyzing,
+  Multi_WaitingForPlayer2,
+  Multi_Initiated,
+  Multi_SelfChance,
+  Multi_OpponentChance,
+  Multi_SelfOver,
+  Multi_OpponentOver,
 }
