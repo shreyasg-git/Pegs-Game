@@ -1,6 +1,7 @@
 import Peg from "./Peg";
 import React, { useReducer } from "react";
 import "./GameBoard.scss";
+import { Redirect } from "react-router-dom";
 
 import Modal from "components/Modal";
 
@@ -13,9 +14,11 @@ import { BoardStateActionTypes } from "types/BoardStateActionType";
 import MenuBar from "./MenuBar";
 import { PegTypes } from "types/PegTypes";
 
-import clientSocket from "websockets/SocketClient";
+import GameInfoCxt from "GameInfoCxt";
 
-const GameBoard: React.FC<GameBoardPropType> = ({ type, gameInfo }) => {
+const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
+  const { gameInfo, gameInfoDispatch } = React.useContext(GameInfoCxt);
+
   const [selectedPeg, setSelectedPeg] = React.useState<number[]>([-1, -1]);
   const [selfBoardState, selfBoardStateDispatch] = useReducer(
     selfBoardStateReducer,
@@ -42,31 +45,35 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type, gameInfo }) => {
 
   React.useEffect(() => {
     console.log("# Gameboard Rerender/render", selectedPeg, type);
-    const validMoveCount = vm.printValidMovesWithoutRepeatitionsAndReturnCount(0);
-    if (validMoveCount === 0) {
-      let pegsRemain: number = 0;
-      selfBoardState.forEach((rows) => {
-        rows.forEach((p) => {
-          if (p === PegTypes.FilledSlot) {
-            pegsRemain = pegsRemain + 1;
-          }
+    if (!gameInfo.isMultiplayer) {
+      const validMoveCount = vm.printValidMovesWithoutRepeatitionsAndReturnCount(0);
+      if (validMoveCount === 0) {
+        let pegsRemain: number = 0;
+        selfBoardState.forEach((rows) => {
+          rows.forEach((p) => {
+            if (p === PegTypes.FilledSlot) {
+              pegsRemain = pegsRemain + 1;
+            }
+          });
         });
-      });
-      setPegsRemaining(pegsRemain);
-      setGameStatus("OVER");
-      console.log(
-        "======================================GAME OVER======================================"
-      );
+        setPegsRemaining(pegsRemain);
+        setGameStatus("OVER");
+        console.log("===================GAME OVER===================");
+      }
     }
-  }, [selectedPeg, gameStatus, selfBoardState, type]);
+
+    // return () => {
+    //   selfBoardStateDispatch({ type: BoardStateActionTypes.NewGame, payload: null });
+    // };
+  }, [selectedPeg, gameStatus, selfBoardState, type, gameInfo.isMultiplayer]);
 
   const generateBoardUsingMap = () => {
     console.log(type, ": GENERATING BOARD");
     // let pegArray: JSX.Element[] = [];
 
     return selfBoardState.map((line, rowNo) => {
-      // '_' == each peg
       return line.map((_, colNo) => {
+        // '_' == each peg
         return (
           <Peg
             key={7 * rowNo + colNo}
@@ -84,6 +91,7 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type, gameInfo }) => {
   };
   return (
     <>
+      {gameInfo.username1 ? null : <Redirect to="/homepage" />}
       <div className="gameboard">{generateBoardUsingMap()}</div>
       <div>
         {gameStatus === "OVER" ? (

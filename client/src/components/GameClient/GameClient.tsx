@@ -3,14 +3,17 @@ import GameBoard from "./GameBoard";
 import "./GameClient.scss";
 // import MenuBar from "./GameBoard/MenuBar";
 import NavBar from "./NavBar";
-import { GameInfoType } from "types/gameInfoType";
 import selfSocketClient from "websockets/SocketClient";
 
+import GameInfoCxt from "GameInfoCxt";
+
 type GameClientPropsType = {
-  gameInfo: GameInfoType;
+  // gameInfo: GameInfoType;
 };
 
-const GameClient: React.FC<GameClientPropsType> = ({ gameInfo }) => {
+const GameClient: React.FC<GameClientPropsType> = () => {
+  const { gameInfo, gameInfoDispatch } = React.useContext(GameInfoCxt);
+
   // const [gameInfo, setGameInfo] = useState({ user1: "shreyasbg", isMultiplayer: true });
 
   React.useEffect(() => {
@@ -19,15 +22,15 @@ const GameClient: React.FC<GameClientPropsType> = ({ gameInfo }) => {
     }
 
     return () => {
-      selfSocketClient.disconnect();
+      if (gameInfo.isMultiplayer) selfSocketClient.disconnect();
     };
   });
 
   return (
     <div className="gameclient">
-      <NavBar username={gameInfo.username1} />
-      <GameBoard type="SELF" gameInfo={gameInfo} key={1} />
-      {gameInfo.isMultiplayer ? <GameBoard type="GUEST" gameInfo={gameInfo} key={2} /> : null}
+      <NavBar />
+      <GameBoard type="SELF" key={1} />
+      {gameInfo.isMultiplayer ? <GameBoard type="GUEST" key={2} /> : null}
     </div>
   );
 };
