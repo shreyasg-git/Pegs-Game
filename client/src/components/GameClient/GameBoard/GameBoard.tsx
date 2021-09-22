@@ -53,7 +53,7 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
 
   React.useEffect(() => {
     console.log("# Gameboard Rerender/render", selectedPeg, type);
-    console.log(selfBoardState);
+    // console.log(selfBoardState);
 
     // if gameIsSinglePlayer
     if (gameInfo.gameType === GameTypeEnum.SinglePlayer) {

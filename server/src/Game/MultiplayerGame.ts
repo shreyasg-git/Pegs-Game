@@ -1,6 +1,7 @@
 import { Server, Socket } from "socket.io";
-import { EventNames as EN, CustomEventNames } from "./../types/EventNames";
+import { EventNames as EN, CustomEventNames, EventNames } from "./../types/EventNames";
 import { GameState } from "../types/GameState";
+import chalk from "chalk";
 enum ChanceOfPlayer {
   NONE,
   p1,
@@ -20,6 +21,12 @@ class MultiplayerGame {
     this.gameState = GameState.WaitingForPlayer2;
   }
 
+  attachEventListenersAfterHandshakeIsSuccessful = () => {
+    this._socketPlayer1.on(EventNames.disconnect, () => {
+      this._socketPlayer2?.emit(CustomEventNames.opponentDisconnected);
+    });
+  };
+
   private _toggleChance = () => {
     if (this._chanceOf === ChanceOfPlayer.p1) {
       this._chanceOf = ChanceOfPlayer.p2;
@@ -27,6 +34,16 @@ class MultiplayerGame {
     if (this._chanceOf === ChanceOfPlayer.p2) {
       this._chanceOf = ChanceOfPlayer.p1;
     }
+  };
+  sendHandshakeSuccessMsgs = (gameId: number) => {
+    const gameInfoFromServer = {
+      gameId: gameId,
+      player1Id: this._socketPlayer1.id,
+      player2Id: this._socketPlayer2!.id,
+    };
+
+    this._socketPlayer1.emit(CustomEventNames.foundAMatch, gameInfoFromServer);
+    this._socketPlayer2!.emit(CustomEventNames.foundAMatch, gameInfoFromServer);
   };
 
   public getSocketIDs = () => {

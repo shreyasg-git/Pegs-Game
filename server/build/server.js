@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var chalk_1 = __importDefault(require("chalk"));
 var dotenv_1 = __importDefault(require("dotenv"));
 var http_1 = __importDefault(require("http"));
 dotenv_1.default.config({ path: "src/config.env" });
@@ -26,6 +27,6 @@ io.on("connection", function (socket) {
         }
     });
     socket.on("disconnect", function () {
-        console.log("pehli fursat me nikal ", socket.id);
+        console.log(chalk_1.default.black.bgRed("Player Disconnected ", socket.id));
     });
 });

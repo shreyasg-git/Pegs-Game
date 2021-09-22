@@ -24,4 +24,5 @@ export enum GameStatuses {
   Multi_OpponentChance = "Multi_OpponentChance",
   Multi_SelfOver = "Multi_SelfOver",
   Multi_OpponentOver = "Multi_OpponentOver",
+  Multi_MatchFound = "Multi_MatchFound",
 }

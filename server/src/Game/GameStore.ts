@@ -1,6 +1,8 @@
 import MultiplayerGame from "./MultiplayerGame";
 import { Server, Socket } from "socket.io";
 import { GameState } from "../types/GameState";
+import chalk from "chalk";
+
 class GameStore {
   private _onGoingGamesList: Array<MultiplayerGame> = [];
   private _gamesWaitList: MultiplayerGame[] = [];
@@ -23,13 +25,28 @@ class GameStore {
       this._gamesWaitList[0] &&
       this._gamesWaitList[0].gameState === GameState.WaitingForPlayer2
     ) {
-      console.log(`[Game HandShake] Found A Game for ${playerSocket.id} from waitlist...`);
+      console.log(
+        `[Game HandShake] Found A Game for ${chalk.black.bgYellow(
+          playerSocket.id
+        )} from waitlist...`
+      );
       const game = this.resolveAGameOnWait();
       game.connectPlayer2(playerSocket);
       this._onGoingGamesList.push(game);
-      console.log(`[Game Handshake] Completed...${game.getSocketIDs()}`);
+
+      game.sendHandshakeSuccessMsgs(this._onGoingGamesList.length - 1);
+
+      console.log(
+        chalk.green(`[Game Handshake] Completed...`),
+        chalk.black.bgGreen(`${game.getSocketIDs()}`)
+      );
+      console.log();
     } else {
-      console.log(`[Game HandShake] No Current Game On wait...${playerSocket.id} is put on wait`);
+      console.log(
+        chalk.yellow(
+          `[Game HandShake] No Current Game available...${playerSocket.id} is put on wait`
+        )
+      );
       const multiplayerGame = new MultiplayerGame(io, playerSocket);
       this._gamesWaitList.push(multiplayerGame);
       multiplayerGame.sendOnWaitMessage();

@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import dotenv from "dotenv";
 import http from "http";
 dotenv.config({ path: "src/config.env" });
@@ -35,6 +36,6 @@ io.on("connection", (socket: Socket) => {
 
   socket.on("disconnect", () => {
     // console.log("\x1b[33m%s\x1b[0m", socket.id);
-    console.log("pehli fursat me nikal ", socket.id);
+    console.log(chalk.black.bgRed("Player Disconnected ", socket.id));
   });
 });

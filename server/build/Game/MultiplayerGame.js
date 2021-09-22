@@ -12,6 +12,12 @@ var MultiplayerGame = (function () {
     function MultiplayerGame(io, socketPlayer1) {
         var _this = this;
         this._socketPlayer2 = null;
+        this.attachEventListenersAfterHandshakeIsSuccessful = function () {
+            _this._socketPlayer1.on(EventNames_1.EventNames.disconnect, function () {
+                var _a;
+                (_a = _this._socketPlayer2) === null || _a === void 0 ? void 0 : _a.emit(EventNames_1.CustomEventNames.opponentDisconnected);
+            });
+        };
         this._toggleChance = function () {
             if (_this._chanceOf === ChanceOfPlayer.p1) {
                 _this._chanceOf = ChanceOfPlayer.p2;
@@ -19,6 +25,15 @@ var MultiplayerGame = (function () {
             if (_this._chanceOf === ChanceOfPlayer.p2) {
                 _this._chanceOf = ChanceOfPlayer.p1;
             }
+        };
+        this.sendHandshakeSuccessMsgs = function (gameId) {
+            var gameInfoFromServer = {
+                gameId: gameId,
+                player1Id: _this._socketPlayer1.id,
+                player2Id: _this._socketPlayer2.id,
+            };
+            _this._socketPlayer1.emit(EventNames_1.CustomEventNames.foundAMatch, gameInfoFromServer);
+            _this._socketPlayer2.emit(EventNames_1.CustomEventNames.foundAMatch, gameInfoFromServer);
         };
         this.getSocketIDs = function () {
             return [_this._socketPlayer1.id, _this._socketPlayer2.id];

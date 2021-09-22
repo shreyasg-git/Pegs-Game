@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var MultiplayerGame_1 = __importDefault(require("./MultiplayerGame"));
 var GameState_1 = require("../types/GameState");
+var chalk_1 = __importDefault(require("chalk"));
 var GameStore = (function () {
     function GameStore() {
         this._onGoingGamesList = [];
@@ -21,14 +22,16 @@ var GameStore = (function () {
     GameStore.prototype.requestNewGame = function (io, playerSocket) {
         if (this._gamesWaitList[0] &&
             this._gamesWaitList[0].gameState === GameState_1.GameState.WaitingForPlayer2) {
-            console.log("[Game HandShake] Found A Game for " + playerSocket.id + " from waitlist...");
+            console.log("[Game HandShake] Found A Game for " + chalk_1.default.black.bgYellow(playerSocket.id) + " from waitlist...");
             var game = this.resolveAGameOnWait();
             game.connectPlayer2(playerSocket);
             this._onGoingGamesList.push(game);
-            console.log("[Game Handshake] Completed..." + game.getSocketIDs());
+            game.sendHandshakeSuccessMsgs(this._onGoingGamesList.length - 1);
+            console.log(chalk_1.default.green("[Game Handshake] Completed..."), chalk_1.default.black.bgGreen("" + game.getSocketIDs()));
+            console.log();
         }
         else {
-            console.log("[Game HandShake] No Current Game On wait..." + playerSocket.id + " is put on wait");
+            console.log(chalk_1.default.yellow("[Game HandShake] No Current Game available..." + playerSocket.id + " is put on wait"));
             var multiplayerGame = new MultiplayerGame_1.default(io, playerSocket);
             this._gamesWaitList.push(multiplayerGame);
             multiplayerGame.sendOnWaitMessage();
