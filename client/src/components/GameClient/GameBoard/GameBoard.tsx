@@ -1,7 +1,6 @@
 import Peg from "./Peg";
 import React, { useReducer } from "react";
 import "./GameBoard.scss";
-import { Redirect } from "react-router-dom";
 
 import Modal from "components/Modal";
 
@@ -16,11 +15,10 @@ import { PegTypes } from "types/PegTypes";
 
 import GameInfoCxt from "GameInfoCxt";
 import { GameInfoActionsEnum } from "reducers/gameInfoReducer";
-import { GameStatuses } from "types/GameInfoType";
+import { GameStatuses, GameTypeEnum } from "types/GameInfoType";
 
 const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
   const { gameInfo, gameInfoDispatch } = React.useContext(GameInfoCxt);
-
   const [selectedPeg, setSelectedPeg] = React.useState<number[]>([-1, -1]);
   const [selfBoardState, selfBoardStateDispatch] = useReducer(
     selfBoardStateReducer,
@@ -58,7 +56,7 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
     console.log(selfBoardState);
 
     // if gameIsSinglePlayer
-    if (!gameInfo.isMultiplayer) {
+    if (gameInfo.gameType === GameTypeEnum.SinglePlayer) {
       const validMoveCount = vm.printValidMovesWithoutRepeatitionsAndReturnCount(0);
       console.log(validMoveCount, "MOVES REMAINING");
 
@@ -80,14 +78,7 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
         console.log("===================GAME OVER===================");
       }
     }
-  }, [
-    selectedPeg,
-    gameInfo.gameStatus,
-    gameInfoDispatch,
-    selfBoardState,
-    type,
-    gameInfo.isMultiplayer,
-  ]);
+  }, [selectedPeg, gameInfo.gameStatus, gameInfoDispatch, selfBoardState, type, gameInfo.gameType]);
 
   const generateBoardUsingMap = (enableClicks: boolean) => {
     console.log(type, ": GENERATING BOARD");
@@ -116,7 +107,7 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
 
   return (
     <>
-      {gameInfo.username1 ? null : <Redirect to="/homepage" />}
+      {/* {gameInfo.username1 ? null : <Redirect to="/homepage" />} */}
       <div className="gameboard">{generateBoardUsingMap(true)}</div>
       <div>
         {gameInfo.gameStatus === GameStatuses.Single_Over ? (

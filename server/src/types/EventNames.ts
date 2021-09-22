@@ -5,4 +5,5 @@ export enum EventNames {
 
 export enum CustomEventNames {
   newGameInit = "NEW_GAME_INIT",
+  putOnWait = "PUT_ON_WAIT",
 }

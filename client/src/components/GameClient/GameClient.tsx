@@ -6,6 +6,8 @@ import NavBar from "./NavBar";
 import selfSocketClient from "websockets/SocketClient";
 
 import GameInfoCxt from "GameInfoCxt";
+import { GameStatuses, GameTypeEnum } from "types/GameInfoType";
+import { GameInfoActionsEnum } from "reducers/gameInfoReducer";
 
 type GameClientPropsType = {
   // gameInfo: GameInfoType;
@@ -14,23 +16,24 @@ type GameClientPropsType = {
 const GameClient: React.FC<GameClientPropsType> = () => {
   const { gameInfo, gameInfoDispatch } = React.useContext(GameInfoCxt);
 
-  // const [gameInfo, setGameInfo] = useState({ user1: "shreyasbg", isMultiplayer: true });
-
   React.useEffect(() => {
-    if (gameInfo.isMultiplayer) {
-      selfSocketClient.startMultiplayerGame();
-    }
+    (async function anyNameFunction() {
+      if (gameInfo.gameType === GameTypeEnum.Multiplayer) {
+        await selfSocketClient.startMultiplayerGame(gameInfo);
+      }
+    })();
 
     return () => {
-      if (gameInfo.isMultiplayer) selfSocketClient.disconnect();
+      if (gameInfo.gameType === GameTypeEnum.Multiplayer) selfSocketClient.disconnect();
     };
-  });
+  }, [gameInfo, gameInfoDispatch]);
 
   return (
     <div className="gameclient">
       <NavBar />
       <GameBoard type="SELF" key={1} />
-      {gameInfo.isMultiplayer ? <GameBoard type="GUEST" key={2} /> : null}
+      {gameInfo.gameType === GameTypeEnum.Multiplayer ? <GameBoard type="GUEST" key={2} /> : null}
+      {/* <Modal closeFunction={() => {}} newGame={() => {}} pegsRemaining={0} /> */}
     </div>
   );
 };

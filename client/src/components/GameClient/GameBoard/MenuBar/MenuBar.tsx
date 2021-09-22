@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./MenuBar.scss";
 import "./../../../Button/Button.scss";
 import Button from "components/Button";
-import { GameInfoType } from "types/GameInfoType";
+import { GameInfoType, GameStatuses, GameTypeEnum } from "types/GameInfoType";
 import { Link } from "react-router-dom";
+import GameInfoCxt from "GameInfoCxt";
+import { GameInfoActionsEnum } from "reducers/gameInfoReducer";
 interface MenuBarPropsType {
   newGameFunction?: Function;
   gameInfo: GameInfoType;
 }
 
-const MenuBar: React.FC<MenuBarPropsType> = ({ newGameFunction, gameInfo }) => {
+const MenuBar: React.FC<MenuBarPropsType> = ({ newGameFunction }) => {
+  const { gameInfo, gameInfoDispatch } = useContext(GameInfoCxt);
   return (
     <div className="menu-bar">
-      {!gameInfo.isMultiplayer ? (
+      {gameInfo.gameType === GameTypeEnum.SinglePlayer ? (
         <Button
           clickHandler={() => {
             newGameFunction!();
@@ -21,7 +24,18 @@ const MenuBar: React.FC<MenuBarPropsType> = ({ newGameFunction, gameInfo }) => {
           style={{ fontSize: "1.2rem" }}
         />
       ) : null}
-      <Link className="btn" to="/">
+      <Link
+        className="btn"
+        to="/"
+        onClick={() => {
+          if (gameInfo.gameType === GameTypeEnum.SinglePlayer) newGameFunction!();
+          gameInfoDispatch({
+            type: GameInfoActionsEnum.setGameStatus,
+            payload: { newGameStatus: GameStatuses.NotInitiated },
+          });
+          // gameInfoDispatch({type: })
+        }}
+      >
         Exit
       </Link>
     </div>

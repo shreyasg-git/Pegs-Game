@@ -1,4 +1,4 @@
-import { GameInfoType, GameStatuses } from "types/GameInfoType";
+import { GameInfoType, GameStatuses, GameTypeEnum } from "types/GameInfoType";
 
 export type GameInfoActionType = {
   type: GameInfoActionsEnum;
@@ -16,12 +16,12 @@ export const gameInfoReducer = (state: GameInfoType, action: GameInfoActionType)
   switch (action.type) {
     case GameInfoActionsEnum.makeMultiPlayer: {
       const newState = { ...state };
-      newState.isMultiplayer = true;
+      newState.gameType = GameTypeEnum.Multiplayer;
       return newState;
     }
     case GameInfoActionsEnum.makeSinglePlayer: {
       const newState = { ...state };
-      newState.isMultiplayer = false;
+      newState.gameType = GameTypeEnum.SinglePlayer;
       newState.gameStatus = GameStatuses.Single_Intialized;
       return newState;
     }

@@ -1,13 +1,13 @@
 import { createContext } from "react";
-import { GameInfoType, GameStatuses } from "types/GameInfoType";
-import { GameInfoActionType } from "reducers/gameInfoReducer";
+import { GameStatuses, GameTypeEnum } from "types/GameInfoType";
 import GameInfoContextType from "types/GameInfoContextType";
 
 const GameInfoCxt = createContext<GameInfoContextType>({
   gameInfo: {
     username1: "",
     username2: "",
-    isMultiplayer: false,
+    gameType: GameTypeEnum.NotStarted,
+    // isMultiplayer: false,
     gameStatus: GameStatuses.NotInitiated,
   },
   gameInfoDispatch: () => {},

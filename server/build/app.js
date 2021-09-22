@@ -14,4 +14,5 @@ app.use("/", express_1.default.static(path_1.default.join(__dirname, "../../clie
 app.get("/hello", function (req, res) {
     res.status(200).json({ msg: "haalo" });
 });
+setInterval(function () { }, 2000);
 exports.default = app;

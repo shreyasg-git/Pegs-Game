@@ -9,4 +9,5 @@ var EventNames;
 var CustomEventNames;
 (function (CustomEventNames) {
     CustomEventNames["newGameInit"] = "NEW_GAME_INIT";
+    CustomEventNames["putOnWait"] = "PUT_ON_WAIT";
 })(CustomEventNames = exports.CustomEventNames || (exports.CustomEventNames = {}));
