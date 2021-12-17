@@ -15,7 +15,6 @@ const PORT = process.env.PORT || 4000;
 
 httpServer.listen(PORT, () => {
   console.log(`Server is started on port ${PORT}`);
-  console.log("heylasdao");
 });
 
 const io = new socketio.Server(httpServer, { path: "/api/websocket" });
@@ -34,6 +33,8 @@ io.on("connection", (socket: Socket) => {
 
   socket.on("disconnect", () => {
     // console.log("\x1b[33m%s\x1b[0m", socket.id);
-    console.log(chalk.black.bgRed("Player Disconnected ", socket.id));
+    console.log(chalk.black.bgRed("[TOP LVL SERVER.TS]Player Disconnected ", socket.id));
+    gameStore.removeAPlayerUsingSocketId(socket);
+    console.log(gameStore.logGamesInfo());
   });
 });

@@ -19,11 +19,11 @@ var MultiplayerGame = (function () {
         this.attachEventListenersAfterHandshakeIsSuccessful = function () {
             _this._socketPlayer1.on(EventNames_1.EventNames.disconnect, function () {
                 var _a;
-                console.log(chalk_1.default.green("[Game Handshake] Opponent Disconnected"));
+                console.log(chalk_1.default.green("[Game Handshake] Player1 Disconnected"));
                 (_a = _this._socketPlayer2) === null || _a === void 0 ? void 0 : _a.emit(EventNames_1.CustomEventNames.opponentDisconnected);
             });
             _this._socketPlayer2.on(EventNames_1.EventNames.disconnect, function () {
-                console.log(chalk_1.default.green("[Game Handshake] Opponent Disconnected"));
+                console.log(chalk_1.default.green("[Game Handshake] Player2 Disconnected"));
                 _this._socketPlayer1.emit(EventNames_1.CustomEventNames.opponentDisconnected);
             });
             _this._socketPlayer1.on(EventNames_1.CustomEventNames.moveMade, function (move) {
@@ -49,7 +49,8 @@ var MultiplayerGame = (function () {
             _this.attachEventListenersAfterHandshakeIsSuccessful();
         };
         this.getSocketIDs = function () {
-            return [_this._socketPlayer1.id, _this._socketPlayer2.id];
+            var _a;
+            return [_this._socketPlayer1.id, (_a = _this._socketPlayer2) === null || _a === void 0 ? void 0 : _a.id];
         };
         this.sendOnWaitMessage = function () {
             _this._socketPlayer1.emit(EventNames_1.CustomEventNames.putOnWait);
@@ -58,7 +59,7 @@ var MultiplayerGame = (function () {
         this._io = io;
         this._socketPlayer1 = socketPlayer1;
         this._chanceOf = ChanceOfPlayer.NONE;
-        this.gameState = GameState_1.GameState.WaitingForPlayer2;
+        this.gameState = GameState_1.GameStateEnum.WaitingForPlayer2;
     }
     MultiplayerGame.prototype.connectPlayer2 = function (socketPlayer2) {
         this._socketPlayer2 = socketPlayer2;

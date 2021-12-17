@@ -11,24 +11,26 @@ var GameStore = (function () {
         this._onGoingGamesList = [];
         this._gamesWaitList = [];
     }
-    GameStore.prototype.addGameToWaitlist = function (game) {
-        this._gamesWaitList.push(game);
-    };
     GameStore.prototype.resolveAGameOnWait = function () {
         var game = this._gamesWaitList[0];
         this._gamesWaitList.shift();
         return game;
     };
+    GameStore.prototype.removeAPlayerUsingSocketId = function (playerSocket) {
+        this._gamesWaitList = this._gamesWaitList.filter(function (gameInstance) {
+            console.log("remove running for ", gameInstance.getSocketIDs()[0], playerSocket.id);
+            return gameInstance.getSocketIDs()[0] !== playerSocket.id;
+        });
+    };
     GameStore.prototype.requestNewGame = function (io, playerSocket) {
         if (this._gamesWaitList[0] &&
-            this._gamesWaitList[0].gameState === GameState_1.GameState.WaitingForPlayer2) {
+            this._gamesWaitList[0].gameState === GameState_1.GameStateEnum.WaitingForPlayer2) {
             console.log("[Game HandShake] Found A Game for " + chalk_1.default.black.bgYellow(playerSocket.id) + " from waitlist...");
             var game = this.resolveAGameOnWait();
             game.connectPlayer2(playerSocket);
             this._onGoingGamesList.push(game);
             game.sendHandshakeSuccessMsgs(this._onGoingGamesList.length - 1);
             console.log(chalk_1.default.green("[Game Handshake] Completed..."), chalk_1.default.black.bgGreen("" + game.getSocketIDs()));
-            console.log();
         }
         else {
             console.log(chalk_1.default.yellow("[Game HandShake] No Current Game available..." + playerSocket.id + " is put on wait"));
@@ -37,7 +39,11 @@ var GameStore = (function () {
             multiplayerGame.sendOnWaitMessage();
         }
     };
-    GameStore.prototype.logGamesInfo = function () { };
+    GameStore.prototype.logGamesInfo = function () {
+        this._gamesWaitList.forEach(function (g) {
+            console.log(g.getSocketIDs());
+        });
+    };
     return GameStore;
 }());
 var gameStore = new GameStore();

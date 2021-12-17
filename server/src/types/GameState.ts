@@ -1,4 +1,4 @@
-export enum GameState {
+export enum GameStateEnum {
   WaitingForPlayer2,
   Full,
   ON,

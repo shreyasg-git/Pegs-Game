@@ -33,12 +33,8 @@ const App: React.FC = () => {
         <Route path="/multiplayer">
           {gameInfo.username1 ? <GameClient /> : <Redirect to="/homepage" />}
         </Route>
-        <Route path="/homepage">
-          <HomePage />
-        </Route>
-        <Route path="/">
-          <HomePage />
-        </Route>
+        <Route path="/homepage" component={HomePage} />
+        <Route path="/" component={HomePage} />
       </Switch>
     </GameInfoCxt.Provider>
   );

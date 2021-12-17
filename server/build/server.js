@@ -15,7 +15,6 @@ var httpServer = http_1.default.createServer(app_1.default);
 var PORT = process.env.PORT || 4000;
 httpServer.listen(PORT, function () {
     console.log("Server is started on port " + PORT);
-    console.log("heylasdao");
 });
 var io = new socket_io_1.default.Server(httpServer, { path: "/api/websocket" });
 io.on("connection", function (socket) {
@@ -28,6 +27,8 @@ io.on("connection", function (socket) {
         }
     });
     socket.on("disconnect", function () {
-        console.log(chalk_1.default.black.bgRed("Player Disconnected ", socket.id));
+        console.log(chalk_1.default.black.bgRed("[TOP LVL SERVER.TS]Player Disconnected ", socket.id));
+        GameStore_1.default.removeAPlayerUsingSocketId(socket);
+        console.log(GameStore_1.default.logGamesInfo());
     });
 });

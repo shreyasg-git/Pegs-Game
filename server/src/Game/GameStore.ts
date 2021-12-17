@@ -1,16 +1,11 @@
 import MultiplayerGame from "./MultiplayerGame";
 import { Server, Socket } from "socket.io";
-import { GameState } from "../types/GameState";
+import { GameStateEnum } from "../types/GameState";
 import chalk from "chalk";
 
 class GameStore {
   private _onGoingGamesList: Array<MultiplayerGame> = [];
   private _gamesWaitList: MultiplayerGame[] = [];
-
-  addGameToWaitlist(game: MultiplayerGame) {
-    // only if the previous game is resolved
-    this._gamesWaitList.push(game);
-  }
 
   resolveAGameOnWait() {
     const game = this._gamesWaitList[0];
@@ -18,12 +13,18 @@ class GameStore {
 
     return game;
   }
+  public removeAPlayerUsingSocketId(playerSocket: Socket) {
+    this._gamesWaitList = this._gamesWaitList.filter((gameInstance) => {
+      console.log("remove running for ", gameInstance.getSocketIDs()[0], playerSocket.id);
+      return gameInstance.getSocketIDs()[0] !== playerSocket.id;
+    });
+  }
 
   requestNewGame(io: Server, playerSocket: Socket) {
     // check if there is a game available in gameswaitlist
     if (
       this._gamesWaitList[0] &&
-      this._gamesWaitList[0].gameState === GameState.WaitingForPlayer2
+      this._gamesWaitList[0].gameState === GameStateEnum.WaitingForPlayer2
     ) {
       console.log(
         `[Game HandShake] Found A Game for ${chalk.black.bgYellow(
@@ -39,7 +40,6 @@ class GameStore {
         chalk.green(`[Game Handshake] Completed...`),
         chalk.black.bgGreen(`${game.getSocketIDs()}`)
       );
-      console.log();
     } else {
       console.log(
         chalk.yellow(
@@ -52,7 +52,11 @@ class GameStore {
     }
   }
 
-  logGamesInfo() {}
+  logGamesInfo() {
+    this._gamesWaitList.forEach((g) => {
+      console.log(g.getSocketIDs());
+    });
+  }
 }
 
 const gameStore = new GameStore();

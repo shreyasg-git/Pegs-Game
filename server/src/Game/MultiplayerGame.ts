@@ -1,6 +1,6 @@
 import { Server, Socket } from "socket.io";
 import { EventNames as EN, CustomEventNames, EventNames } from "./../types/EventNames";
-import { GameState } from "../types/GameState";
+import { GameStateEnum } from "../types/GameState";
 import chalk from "chalk";
 enum ChanceOfPlayer {
   NONE,
@@ -12,23 +12,23 @@ class MultiplayerGame {
   private _socketPlayer1: Socket;
   private _socketPlayer2: Socket | null = null;
   private _chanceOf: ChanceOfPlayer;
-  public gameState: GameState;
+  public gameState: GameStateEnum;
 
   constructor(io: Server, socketPlayer1: Socket) {
     this._io = io;
     this._socketPlayer1 = socketPlayer1;
     this._chanceOf = ChanceOfPlayer.NONE;
-    this.gameState = GameState.WaitingForPlayer2;
+    this.gameState = GameStateEnum.WaitingForPlayer2;
   }
 
   attachEventListenersAfterHandshakeIsSuccessful = () => {
     this._socketPlayer1.on(EventNames.disconnect, () => {
-      console.log(chalk.green("[Game Handshake] Opponent Disconnected"));
+      console.log(chalk.green("[Game Handshake] Player1 Disconnected"));
 
       this._socketPlayer2?.emit(CustomEventNames.opponentDisconnected);
     });
     this._socketPlayer2!.on(EventNames.disconnect, () => {
-      console.log(chalk.green("[Game Handshake] Opponent Disconnected"));
+      console.log(chalk.green("[Game Handshake] Player2 Disconnected"));
 
       this._socketPlayer1.emit(CustomEventNames.opponentDisconnected);
     });
@@ -59,7 +59,7 @@ class MultiplayerGame {
   };
 
   public getSocketIDs = () => {
-    return [this._socketPlayer1.id, this._socketPlayer2!.id];
+    return [this._socketPlayer1.id, this._socketPlayer2?.id];
   };
 
   public sendOnWaitMessage = () => {
