@@ -8,4 +8,5 @@ export enum CustomEventNames {
   putOnWait = "PUT_ON_WAIT",
   foundAMatch = "FOUND_A_MATCH",
   opponentDisconnected = "OPPONENT_DISCONNECTED",
+  moveMade = "MOVE_MADE",
 }

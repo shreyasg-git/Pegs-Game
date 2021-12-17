@@ -14,13 +14,13 @@ class GameStore {
 
   resolveAGameOnWait() {
     const game = this._gamesWaitList[0];
-    this._gamesWaitList.shift();
+    this._gamesWaitList.shift(); // removes first element
 
     return game;
   }
 
   requestNewGame(io: Server, playerSocket: Socket) {
-    // check if there is a game available in gameswautlist
+    // check if there is a game available in gameswaitlist
     if (
       this._gamesWaitList[0] &&
       this._gamesWaitList[0].gameState === GameState.WaitingForPlayer2
@@ -35,7 +35,6 @@ class GameStore {
       this._onGoingGamesList.push(game);
 
       game.sendHandshakeSuccessMsgs(this._onGoingGamesList.length - 1);
-
       console.log(
         chalk.green(`[Game Handshake] Completed...`),
         chalk.black.bgGreen(`${game.getSocketIDs()}`)

@@ -11,9 +11,6 @@ import { gameInfoReducer } from "reducers/gameInfoReducer";
 // import GameInfoCxt from "GameInfoCxt";
 
 const App: React.FC = () => {
-  const history = useHistory();
-  console.log(history);
-
   const [gameInfo, gameInfoDispatch] = useReducer(gameInfoReducer, {
     username1: "",
     username2: "",

@@ -1,7 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var EventNames_1 = require("./../types/EventNames");
 var GameState_1 = require("../types/GameState");
+var chalk_1 = __importDefault(require("chalk"));
 var ChanceOfPlayer;
 (function (ChanceOfPlayer) {
     ChanceOfPlayer[ChanceOfPlayer["NONE"] = 0] = "NONE";
@@ -15,7 +19,15 @@ var MultiplayerGame = (function () {
         this.attachEventListenersAfterHandshakeIsSuccessful = function () {
             _this._socketPlayer1.on(EventNames_1.EventNames.disconnect, function () {
                 var _a;
+                console.log(chalk_1.default.green("[Game Handshake] Opponent Disconnected"));
                 (_a = _this._socketPlayer2) === null || _a === void 0 ? void 0 : _a.emit(EventNames_1.CustomEventNames.opponentDisconnected);
+            });
+            _this._socketPlayer2.on(EventNames_1.EventNames.disconnect, function () {
+                console.log(chalk_1.default.green("[Game Handshake] Opponent Disconnected"));
+                _this._socketPlayer1.emit(EventNames_1.CustomEventNames.opponentDisconnected);
+            });
+            _this._socketPlayer1.on(EventNames_1.CustomEventNames.moveMade, function (move) {
+                console.log();
             });
         };
         this._toggleChance = function () {
@@ -34,6 +46,7 @@ var MultiplayerGame = (function () {
             };
             _this._socketPlayer1.emit(EventNames_1.CustomEventNames.foundAMatch, gameInfoFromServer);
             _this._socketPlayer2.emit(EventNames_1.CustomEventNames.foundAMatch, gameInfoFromServer);
+            _this.attachEventListenersAfterHandshakeIsSuccessful();
         };
         this.getSocketIDs = function () {
             return [_this._socketPlayer1.id, _this._socketPlayer2.id];

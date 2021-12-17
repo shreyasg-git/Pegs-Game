@@ -23,7 +23,18 @@ class MultiplayerGame {
 
   attachEventListenersAfterHandshakeIsSuccessful = () => {
     this._socketPlayer1.on(EventNames.disconnect, () => {
+      console.log(chalk.green("[Game Handshake] Opponent Disconnected"));
+
       this._socketPlayer2?.emit(CustomEventNames.opponentDisconnected);
+    });
+    this._socketPlayer2!.on(EventNames.disconnect, () => {
+      console.log(chalk.green("[Game Handshake] Opponent Disconnected"));
+
+      this._socketPlayer1.emit(CustomEventNames.opponentDisconnected);
+    });
+
+    this._socketPlayer1.on(CustomEventNames.moveMade, (move) => {
+      console.log();
     });
   };
 
@@ -44,6 +55,7 @@ class MultiplayerGame {
 
     this._socketPlayer1.emit(CustomEventNames.foundAMatch, gameInfoFromServer);
     this._socketPlayer2!.emit(CustomEventNames.foundAMatch, gameInfoFromServer);
+    this.attachEventListenersAfterHandshakeIsSuccessful();
   };
 
   public getSocketIDs = () => {

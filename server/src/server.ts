@@ -24,15 +24,13 @@ io.on("connection", (socket: Socket) => {
   console.log("New Connection - ", socket.id);
 
   socket.on(CustomEventNames.newGameInit, (data) => {
-    // console.log(data);
+    console.log(chalk.gray(JSON.parse(JSON.stringify(data))));
     // gameType: "Multiplayer", gameStatus: "Multi_WaitingForPlayer2"
     if (data.gameType === "Multiplayer" && data.gameStatus === "Multi_WaitingForPlayer2") {
       console.log("[Game HandShake]", socket.id, "Has requested for A Multiplayer Game");
       gameStore.requestNewGame(io, socket);
     }
   });
-
-  // socket.on (CustomEventNames.newGameInit)
 
   socket.on("disconnect", () => {
     // console.log("\x1b[33m%s\x1b[0m", socket.id);

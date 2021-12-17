@@ -25,7 +25,7 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
     // just for deep copy !!! 2D arrays are different than 1D arrays
     JSON.parse(JSON.stringify(InitGameBoardState2))
   );
-  // const [gameStatus, setGameStatus] = React.useState<string>("ON");
+  const [isFirstMovePlayed, setIsFirstMovePlayed] = React.useState<boolean>(false);
   const [pegsRemaining, setPegsRemaining] = React.useState<number>(32);
 
   const closeModal = () => {
@@ -97,6 +97,8 @@ const GameBoard: React.FC<GameBoardPropType> = ({ type }) => {
             selfBoardStateDispatch={selfBoardStateDispatch}
             type={type}
             enableClicks={enableClicks}
+            isFirstMovePlayed={isFirstMovePlayed}
+            setIsFirstMovePlayed={setIsFirstMovePlayed}
           />
         );
       });

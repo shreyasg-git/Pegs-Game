@@ -12,4 +12,5 @@ var CustomEventNames;
     CustomEventNames["putOnWait"] = "PUT_ON_WAIT";
     CustomEventNames["foundAMatch"] = "FOUND_A_MATCH";
     CustomEventNames["opponentDisconnected"] = "OPPONENT_DISCONNECTED";
+    CustomEventNames["moveMade"] = "MOVE_MADE";
 })(CustomEventNames = exports.CustomEventNames || (exports.CustomEventNames = {}));
