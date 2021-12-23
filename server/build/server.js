@@ -20,7 +20,6 @@ var io = new socket_io_1.default.Server(httpServer, { path: "/api/websocket" });
 io.on("connection", function (socket) {
     console.log("New Connection - ", socket.id);
     socket.on(EventNames_1.CustomEventNames.newGameInit, function (data) {
-        console.log(chalk_1.default.gray(JSON.parse(JSON.stringify(data))));
         if (data.gameType === "Multiplayer" && data.gameStatus === "Multi_WaitingForPlayer2") {
             console.log("[Game HandShake]", socket.id, "Has requested for A Multiplayer Game");
             GameStore_1.default.requestNewGame(io, socket);
@@ -29,6 +28,5 @@ io.on("connection", function (socket) {
     socket.on("disconnect", function () {
         console.log(chalk_1.default.black.bgRed("[TOP LVL SERVER.TS]Player Disconnected ", socket.id));
         GameStore_1.default.removeAPlayerUsingSocketId(socket);
-        console.log(GameStore_1.default.logGamesInfo());
     });
 });
