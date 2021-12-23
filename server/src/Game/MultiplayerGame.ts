@@ -24,12 +24,11 @@ class MultiplayerGame {
   attachEventListenersAfterHandshakeIsSuccessful = () => {
     this._socketPlayer1.on(EventNames.disconnect, () => {
       console.log(chalk.green("[Game Handshake] Player1 Disconnected"));
-
-      this._socketPlayer2?.emit(CustomEventNames.opponentDisconnected);
+      this._socketPlayer2!.emit(CustomEventNames.opponentDisconnected);
     });
+
     this._socketPlayer2!.on(EventNames.disconnect, () => {
       console.log(chalk.green("[Game Handshake] Player2 Disconnected"));
-
       this._socketPlayer1.emit(CustomEventNames.opponentDisconnected);
     });
 

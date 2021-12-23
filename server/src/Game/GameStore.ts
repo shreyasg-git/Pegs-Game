@@ -15,7 +15,7 @@ class GameStore {
   }
   public removeAPlayerUsingSocketId(playerSocket: Socket) {
     this._gamesWaitList = this._gamesWaitList.filter((gameInstance) => {
-      console.log("remove running for ", gameInstance.getSocketIDs()[0], playerSocket.id);
+      // console.log("remove running for ", gameInstance.getSocketIDs()[0], playerSocket.id);
       return gameInstance.getSocketIDs()[0] !== playerSocket.id;
     });
   }

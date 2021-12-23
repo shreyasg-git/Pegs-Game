@@ -21,17 +21,29 @@ const GameClient: React.FC<GameClientPropsType> = () => {
 
   React.useEffect(() => {
     (async function anyNameFunction() {
-      if (gameInfo.gameType === GameTypeEnum.Multiplayer) {
-        await selfSocketClient.startMultiplayerGame(gameInfo, disconnectHandler, gameInfoDispatch);
+      if (
+        gameInfo.gameType === GameTypeEnum.Multiplayer &&
+        gameInfo.gameStatus === GameStatuses.Multi_WaitingForPlayer2
+      ) {
+        console.log("GAMEINFO", gameInfo);
+        // NOTE: SocketClient EntryPoint
+        await selfSocketClient.startMultiplayerGame(
+          gameInfo,
+          oppDisconnectHandler,
+          gameInfoDispatch
+        );
       }
     })();
 
     return () => {
-      if (gameInfo.gameType === GameTypeEnum.Multiplayer) selfSocketClient.disconnect();
+      console.log("[CLEANER CLALLED]");
+      // NOTE: due to time constraints, I am leaving this as it is, it seems that whenever component re-renders due
+      //  to gameInfo state update, this cleanup is called, which disconnects the socket, and does the whole handshake all over again.
+      // if (gameInfo.gameType === GameTypeEnum.Multiplayer) selfSocketClient.disconnect();
     };
-  }, [gameInfo, gameInfoDispatch]);
+  });
 
-  const disconnectHandler = () => {
+  const oppDisconnectHandler = () => {
     console.log("[Opponent Disconnected Handler] Called");
 
     gameInfoDispatch({
@@ -41,6 +53,8 @@ const GameClient: React.FC<GameClientPropsType> = () => {
   };
 
   const cancelMatchMaking = () => {
+    console.log("[MATCH MAKING CANCELLED]");
+
     selfSocketClient.disconnect();
     gameInfoDispatch({
       type: GameInfoActionsEnum.setGameStatus,
@@ -51,22 +65,25 @@ const GameClient: React.FC<GameClientPropsType> = () => {
     return <Redirect to="/homepage" />;
   }
   // waiting for player 2
-  if (gameInfo.gameStatus === GameStatuses.Multi_WaitingForPlayer2) {
-    return (
-      <div className="gameclient">
-        <NavBar />
-        <GameBoard type="SELF" key={1} />
-        {gameInfo.gameType === GameTypeEnum.Multiplayer ? <GameBoard type="GUEST" key={2} /> : null}
-        <MultiPlayerModal cancelFunction={cancelMatchMaking} />
-      </div>
-    );
-  }
+  // if (gameInfo.gameStatus === GameStatuses.Multi_WaitingForPlayer2) {
+  //   return (
+  //     <div className="gameclient">
+  //       <NavBar />
+  //       <GameBoard type="SELF" key={1} />
+  //       {gameInfo.gameType === GameTypeEnum.Multiplayer ? <GameBoard type="GUEST" key={2} /> : null}
+  //       <MultiPlayerModal cancelFunction={cancelMatchMaking} />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="gameclient">
       <NavBar />
       <GameBoard type="SELF" key={1} />
       {gameInfo.gameType === GameTypeEnum.Multiplayer ? <GameBoard type="GUEST" key={2} /> : null}
+      {gameInfo.gameStatus === (GameStatuses.Multi_WaitingForPlayer2 as GameStatuses) ? (
+        <MultiPlayerModal cancelFunction={cancelMatchMaking} />
+      ) : null}
       {/* <Modal closeFunction={() => {}} newGame={() => {}} pegsRemaining={0} /> */}
     </div>
   );

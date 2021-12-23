@@ -45,6 +45,7 @@ class SocketClient {
       transports: ["websocket"],
       path: "/api/websocket",
     });
+
     this._socket.on(EventNames.connect, () => {
       this.initiateAGame(gameInfo);
       console.log("connected To Server, your id is", this._socket.id);
@@ -54,6 +55,7 @@ class SocketClient {
     this._socket.on(EventNames.disconnect, () => {
       console.log("You are disconnected from server.");
     });
+
     this._socket.on(CustomEventNames.putOnWait, () => {
       console.log("No waiting players currently...plz wait", this._socket.id);
       this.gameStatus = GameStatuses.Multi_WaitingForPlayer2;
@@ -61,7 +63,6 @@ class SocketClient {
 
     this._socket.on(CustomEventNames.foundAMatch, (msg) => {
       console.log("Found A Match !!!");
-      // TODO: was working on this 16:11 7/10/21
       if (this._socket.id === msg.player1Id) {
         this._opponentId = msg.player2Id;
       } else {
@@ -77,7 +78,6 @@ class SocketClient {
     });
 
     this._socket.on(CustomEventNames.opponentDisconnected, () => {
-      //TODO: Making this right now
       console.log("Opponent has disconnected. Redirecting to HomePage...");
       this._disconnectHandler();
     });

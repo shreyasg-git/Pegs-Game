@@ -18,7 +18,6 @@ var GameStore = (function () {
     };
     GameStore.prototype.removeAPlayerUsingSocketId = function (playerSocket) {
         this._gamesWaitList = this._gamesWaitList.filter(function (gameInstance) {
-            console.log("remove running for ", gameInstance.getSocketIDs()[0], playerSocket.id);
             return gameInstance.getSocketIDs()[0] !== playerSocket.id;
         });
     };

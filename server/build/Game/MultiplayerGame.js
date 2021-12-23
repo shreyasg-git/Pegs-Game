@@ -18,9 +18,8 @@ var MultiplayerGame = (function () {
         this._socketPlayer2 = null;
         this.attachEventListenersAfterHandshakeIsSuccessful = function () {
             _this._socketPlayer1.on(EventNames_1.EventNames.disconnect, function () {
-                var _a;
                 console.log(chalk_1.default.green("[Game Handshake] Player1 Disconnected"));
-                (_a = _this._socketPlayer2) === null || _a === void 0 ? void 0 : _a.emit(EventNames_1.CustomEventNames.opponentDisconnected);
+                _this._socketPlayer2.emit(EventNames_1.CustomEventNames.opponentDisconnected);
             });
             _this._socketPlayer2.on(EventNames_1.EventNames.disconnect, function () {
                 console.log(chalk_1.default.green("[Game Handshake] Player2 Disconnected"));
