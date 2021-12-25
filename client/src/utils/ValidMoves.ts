@@ -183,71 +183,7 @@ class ValidMoves {
   }
 
   newGame() {
-    this.currentGameState = [
-      [
-        PegTypes.InvisiblePeg,
-        PegTypes.InvisiblePeg,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.InvisiblePeg,
-        PegTypes.InvisiblePeg,
-      ],
-      [
-        PegTypes.InvisiblePeg,
-        PegTypes.InvisiblePeg,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.InvisiblePeg,
-        PegTypes.InvisiblePeg,
-      ],
-      [
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-      ],
-      [
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.EmptySlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-      ],
-      [
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-      ],
-      [
-        PegTypes.InvisiblePeg,
-        PegTypes.InvisiblePeg,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.InvisiblePeg,
-        PegTypes.InvisiblePeg,
-      ],
-      [
-        PegTypes.InvisiblePeg,
-        PegTypes.InvisiblePeg,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.FilledSlot,
-        PegTypes.InvisiblePeg,
-        PegTypes.InvisiblePeg,
-      ],
-    ];
+    this.currentGameState = JSON.parse(JSON.stringify(InitGameBoardState2));
     this.movesHistory = [];
     this.validMoves = [
       [
@@ -271,6 +207,7 @@ class ValidMoves {
         [3, 3],
       ],
     ];
+    console.log("ValidMoves started A New Game");
   }
 }
 

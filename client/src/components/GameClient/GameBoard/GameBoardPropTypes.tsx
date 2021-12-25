@@ -4,5 +4,5 @@ import { GameInfoType } from "types/GameInfoType";
 
 export interface GameBoardPropType {
   type: string;
-  gameInfo: GameInfoType;
+  // gameInfo: GameInfoType;
 }

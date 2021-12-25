@@ -1,33 +1,42 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useReducer, useEffect } from "react";
+import { Switch, Route, useHistory, Redirect } from "react-router-dom";
 import "./App.scss";
 
 import GameClient from "../GameClient";
 import HomePage from "components/HomePage";
-// export const GameBoardUpdateContext = React.createContext({ gbState: [], setGBState:Dispatch<SetStateAction<never[]>>  });
+import { GameStatuses, GameTypeEnum } from "types/GameInfoType";
+
+import GameInfoCxt from "GameInfoCxt";
+import { gameInfoReducer } from "reducers/gameInfoReducer";
+// import GameInfoCxt from "GameInfoCxt";
 
 const App: React.FC = () => {
+  const [gameInfo, gameInfoDispatch] = useReducer(gameInfoReducer, {
+    username1: "",
+    username2: "",
+    gameType: GameTypeEnum.NotStarted,
+    gameStatus: GameStatuses.NotInitiated,
+  });
+
+  useEffect(() => {
+    console.log("App Re-render");
+
+    console.log(gameInfo);
+  }, [gameInfo]);
+
   return (
-    <Router>
-      <div>
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/singleplayer">
-            <GameClient gameInfo={{ username1: "shreyasbg", isMultiplayer: false }} />
-          </Route>
-          <Route path="/multiplayer">
-            <GameClient gameInfo={{ username1: "shreyasbg", isMultiplayer: true }} />
-          </Route>
-          <Route path="/homepage">
-            <HomePage />
-          </Route>
-          <Route path="/">
-            <HomePage />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <GameInfoCxt.Provider value={{ gameInfo, gameInfoDispatch }}>
+      <Switch>
+        <Route path="/singleplayer">
+          {gameInfo.username1 ? <GameClient /> : <Redirect to="/homepage" />}
+        </Route>
+        <Route path="/multiplayer">
+          {gameInfo.username1 ? <GameClient /> : <Redirect to="/homepage" />}
+        </Route>
+        <Route path="/homepage" component={HomePage} />
+        <Route path="/" component={HomePage} />
+      </Switch>
+    </GameInfoCxt.Provider>
   );
 };
 
