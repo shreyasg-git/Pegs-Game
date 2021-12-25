@@ -6,7 +6,10 @@ import { PegTypes, intToPegTypeLookUp } from "types/PegTypes";
 import { BoardStateActionTypes } from "types/BoardStateActionType";
 // import vm1 from "utils/ValidMoves";
 import { getNeighbors, getNeighborsOfNeighbors } from "utils/getVicinity";
-
+import GameInfoCxt from "GameInfoCxt";
+import { GameInfoActionsEnum } from "reducers/gameInfoReducer";
+import { GameStatuses, GameTypeEnum } from "types/GameInfoType";
+import selfSocketClient from "websockets/SocketClient";
 const Peg: React.FC<PegPropType> = ({
   // pegId,
   pegType,
@@ -16,8 +19,23 @@ const Peg: React.FC<PegPropType> = ({
   selfBoardState,
   selfBoardStateDispatch,
   type,
+  enableClicks,
+  isFirstMovePlayed,
+  setIsFirstMovePlayed,
 }) => {
+  const { gameInfo, gameInfoDispatch } = React.useContext(GameInfoCxt);
+
   const handleClick = () => {
+    if (!enableClicks) {
+      return;
+    }
+    if (!isFirstMovePlayed) {
+      setIsFirstMovePlayed(true);
+      gameInfoDispatch({
+        type: GameInfoActionsEnum.setGameStatus,
+        payload: { newGameStatus: GameStatuses.Single_Playing },
+      });
+    }
     if (pegType === PegTypes.FilledSlot || pegType === PegTypes.DeletePeg) {
       let newBoard: GameBoardChangesType = {
         EmptySlot: [],
@@ -61,7 +79,7 @@ const Peg: React.FC<PegPropType> = ({
       const neighborsOfNeighbors = getNeighborsOfNeighbors(pegCoords);
       const neighbors = getNeighbors(pegCoords);
 
-      let newBoard: GameBoardChangesType = {
+      let newBoardChanges: GameBoardChangesType = {
         EmptySlot: [],
         FilledSlot: [],
         DroppableEmptySlot: [],
@@ -70,7 +88,7 @@ const Peg: React.FC<PegPropType> = ({
         InvisiblePeg: [],
       };
 
-      newBoard.EmptySlot.push(selectedPeg);
+      newBoardChanges.EmptySlot.push(selectedPeg);
       let jk = -1;
       neighborsOfNeighbors.forEach((naybore, index) => {
         if (naybore[0] === selectedPeg[0] && naybore[1] === selectedPeg[1]) {
@@ -78,14 +96,17 @@ const Peg: React.FC<PegPropType> = ({
         }
       });
 
-      newBoard.EmptySlot.push(neighbors[jk]);
-      newBoard.FilledSlot.push(pegCoords);
+      newBoardChanges.EmptySlot.push(neighbors[jk]);
+      newBoardChanges.FilledSlot.push(pegCoords);
 
       selfBoardStateDispatch({
         type: BoardStateActionTypes.MoveComplete,
-        payload: newBoard,
+        payload: newBoardChanges,
       });
       setSelectedPeg([-1, -1]);
+      if (gameInfo.gameType === GameTypeEnum.Multiplayer) {
+        selfSocketClient.registerMoveToServer(newBoardChanges);
+      }
     }
   };
   React.useEffect(() => {

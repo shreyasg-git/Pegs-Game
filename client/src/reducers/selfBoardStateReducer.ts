@@ -5,6 +5,7 @@ import { GameBoardChangesType } from "types/GameStateChanges";
 import { InitGameBoardState2 } from "gameConstraints/InitGameBoardState";
 import vm1 from "utils/ValidMoves";
 import { PegTypes } from "types/PegTypes";
+import selfSocketClient from "websockets/SocketClient";
 
 export const selfBoardStateReducer = (state: number[][], action: BoardStateAction): number[][] => {
   switch (action.type) {
@@ -18,6 +19,7 @@ export const selfBoardStateReducer = (state: number[][], action: BoardStateActio
         payload1.EmptySlot[1],
         payload1.FilledSlot[0],
       ]);
+
       return newState;
     }
 
