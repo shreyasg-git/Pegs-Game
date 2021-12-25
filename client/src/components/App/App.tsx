@@ -8,7 +8,6 @@ import { GameStatuses, GameTypeEnum } from "types/GameInfoType";
 
 import GameInfoCxt from "GameInfoCxt";
 import { gameInfoReducer } from "reducers/gameInfoReducer";
-// import GameInfoCxt from "GameInfoCxt";
 
 const App: React.FC = () => {
   const [gameInfo, gameInfoDispatch] = useReducer(gameInfoReducer, {

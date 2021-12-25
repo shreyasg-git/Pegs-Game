@@ -28,12 +28,12 @@ const GameClient: React.FC<GameClientPropsType> = () => {
         gameInfo.gameStatus === GameStatuses.Multi_WaitingForPlayer2
       ) {
         console.log("GAMEINFO", gameInfo);
-        // NOTE: SocketClient EntryPoint
-        await selfSocketClient.startMultiplayerGame(
-          gameInfo,
-          oppDisconnectHandler,
-          gameInfoDispatch
-        );
+        // NOTE: SocketClient EntryPoint - commneted out in client-only deploy
+        // await selfSocketClient.startMultiplayerGame(
+        //   gameInfo,
+        //   oppDisconnectHandler,
+        //   gameInfoDispatch
+        // );
       }
     })();
 
