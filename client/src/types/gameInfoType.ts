@@ -5,7 +5,7 @@ export type GameInfoType = {
   // isMultiplayer: boolean | "NOT_INITIATED";
   gameStatus: GameStatuses;
 };
-
+// adding this line
 export enum GameTypeEnum {
   NotStarted = "NotStarted",
   SinglePlayer = "SinglePlayer",
