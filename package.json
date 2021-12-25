@@ -1,12 +1,13 @@
 {
-  "name": "mern-ts",
+  "name": "pegs-game",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"cd client && npm start\" \"cd server && npm run dev\"",
-    "dev-client": "cd client && npm start",
+    "dev-client": "cd client && set BROWSER=none&&npm start",
+    "dev-server": "cd server && npm run dev",
     "build": "npm run build-client && npm run build-server",
     "build-client": "cd client && npm run build",
     "build-server": "cd server && npm run build",
@@ -15,7 +16,5 @@
     "install-server": "cd server && npm i"
   },
   "author": "shreyas",
-  "license": "ISC",
-  "dependencies": {},
-  "devDependencies": {}
+  "license": "ISC"
 }
