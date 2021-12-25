@@ -105,4 +105,4 @@ dist
 
 
 # CUSTOM INGORES BY SHREYAS
-.client/build/
+.client/build
