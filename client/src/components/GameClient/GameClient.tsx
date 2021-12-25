@@ -7,8 +7,6 @@ import { Redirect } from "react-router";
 // import MenuBar from "./GameBoard/MenuBar";
 import NavBar from "./NavBar";
 
-import { GameInfoType } from "types/GameInfoType";
-
 import selfSocketClient from "websockets/SocketClient";
 
 import GameInfoCxt from "GameInfoCxt";
@@ -45,14 +43,14 @@ const GameClient: React.FC<GameClientPropsType> = () => {
     };
   });
 
-  const oppDisconnectHandler = () => {
-    console.log("[Opponent Disconnected Handler] Called");
+  // const oppDisconnectHandler = () => {
+  //   console.log("[Opponent Disconnected Handler] Called");
 
-    gameInfoDispatch({
-      type: GameInfoActionsEnum.setGameStatus,
-      payload: { newGameStatus: GameStatuses.NotInitiated },
-    });
-  };
+  //   gameInfoDispatch({
+  //     type: GameInfoActionsEnum.setGameStatus,
+  //     payload: { newGameStatus: GameStatuses.NotInitiated },
+  //   });
+  // };
 
   const cancelMatchMaking = () => {
     console.log("[MATCH MAKING CANCELLED]");

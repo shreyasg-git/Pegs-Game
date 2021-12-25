@@ -2,11 +2,7 @@ import io, { Socket } from "socket.io-client";
 import { CustomEventNames, EventNames } from "types/EventNames";
 import { GameInfoType, GameStatuses } from "types/GameInfoType";
 import { GameInfoActionsEnum, GameInfoActionType } from "reducers/gameInfoReducer";
-import { MoveIndices } from "types/Move";
 import { GameBoardChangesType } from "types/GameStateChanges";
-
-// TODO: this too
-enum MultiGameHandShakesStatuses {}
 
 class SocketClient {
   private _socket!: Socket;

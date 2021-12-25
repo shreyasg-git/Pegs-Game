@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect } from "react";
-import { Switch, Route, useHistory, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import "./App.scss";
 
 import GameClient from "../GameClient";
