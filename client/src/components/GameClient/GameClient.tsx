@@ -3,7 +3,7 @@ import GameBoard from "./GameBoard";
 import "./GameClient.scss";
 // import MenuBar from "./GameBoard/MenuBar";
 import NavBar from "./NavBar";
-import { GameInfoType } from "types/gameInfoType";
+import { GameInfoType } from "types/GameInfoType";
 
 interface GameClientPropsType {
   gameInfo: GameInfoType;
